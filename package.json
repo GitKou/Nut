@@ -15,14 +15,17 @@
     "docDev": "father doc dev",
     "docBuild": "father doc build",
     "docDeploy": "father doc deploy",
-    "doc": "father doc"
-  },
-  "dependencies": {
-    "react-router-dom": "^5.3.0"
+    "doc": "father doc",
+    "bootstrap": "lerna bootstrap",
+    "publish": "lerna publish"
   },
   "devDependencies": {
     "father": "^2.30.10",
     "lerna": "^4.0.0"
   },
-  "name": "Nut"
+  "name": "lc-nut",
+  "dependencies": {
+    "antd": "^4.16.13"
+  },
+  "version": "0.0.1"
 }

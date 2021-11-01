@@ -1,4 +1,4 @@
-import { useParams } from 'umi';
+import { useParams } from 'react-router-dom';
 
 export default function useNumberParam(dataIndex: string) {
   const p = useParams<any>();
