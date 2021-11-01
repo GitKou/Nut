@@ -9,7 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "uid": "^7.0.0"
+    "uid": "^2.0.0"
   },
   "publishConfig": {
     "access": "public"
