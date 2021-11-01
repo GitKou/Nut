@@ -9,7 +9,10 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "uid": "^2.0.0"
+    "@lc-nut/interfaces": "^1.0.0",
+    "store": "^2.0.12",
+    "uid": "^2.0.0",
+    "umi-request": "^1.4.0"
   },
   "publishConfig": {
     "access": "public"
