@@ -1,7 +1,8 @@
 export default {
-    entry: 'src/foo.js',
+    entry: 'packages/',
     doc: {
         themeConfig: { mode: 'dark' },
         base: '/your-repo'
     },
+    port: 2000,
 }
