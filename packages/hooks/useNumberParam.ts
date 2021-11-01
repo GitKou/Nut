@@ -11,3 +11,5 @@ export default function useNumberParam(dataIndex: string) {
       : numberValue
     : undefined;
 }
+// test lerna publish
+console.log('test lerna publish');
