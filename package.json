@@ -29,8 +29,6 @@
     "precommit": "lint-staged",
     "prettier": "prettier -c --write \"src/**/*\"",
     "tsc": "tsc --noEmit"
-
-
   },
   "devDependencies": {
     "father": "^2.30.10",

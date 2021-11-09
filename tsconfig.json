@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "outDir": "build/dist",
+    "outDir": "dist",
     "module": "esnext",
     "target": "esnext",
     "lib": ["esnext", "dom"],
@@ -14,14 +14,13 @@
     "noImplicitReturns": true,
     "suppressImplicitAnyIndexErrors": true,
     "noUnusedLocals": true,
-    "allowJs": true,
     "skipLibCheck": true,
     "experimentalDecorators": true,
     "strict": true
   },
   "include": [
     "mock/**/*",
-    "packages/**/*",
+    "packages",
     "tests/**/*",
     "test/**/*",
     "__test__/**/*",
@@ -32,5 +31,5 @@
     "jest.config.js",
     "mock/*"
   ],
-  "exclude": ["node_modules", "build", "dist", "scripts", "src/.umi/*", "webpack", "jest"]
+  "exclude": ["node_modules", "build", "dist", "scripts", "webpack", "jest"]
 }

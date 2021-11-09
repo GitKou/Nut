@@ -1,8 +1,9 @@
 import { message, Upload } from 'antd';
-import { RcFile, UploadFileStatus } from 'antd/lib/upload/interface';
+import type { RcFile, UploadFileStatus } from 'antd/lib/upload/interface';
 import { uid } from 'uid';
-import { IFileObject } from '../interfaces/file';
-import { ByteData, calcBytes, EByteSize } from './byte';
+import type { IFileObject } from '../interfaces/file';
+import type { ByteData } from './byte';
+import { calcBytes, EByteSize } from './byte';
 
 export const getFileNameFormUrlTail = (url?: string) =>
   url ? url.substr(url.lastIndexOf('/') + 1) : '';
@@ -57,4 +58,4 @@ export const beforeUpload =
       return true;
     };
 
-export const uploadAction = (file: RcFile) => `/api/common/file/upload?fileName=${file.name}`;
+export const uploadAction = (file: RcFile) => `/api/common/file/upload?fileName=${encodeURIComponent(file.name)}`;
