@@ -12,6 +12,12 @@ export interface EllipsisMiddleProps extends TextProps {
 const EllipsisMiddle = ({ suffixCount, children, ...restProps }: EllipsisMiddleProps) => {
   const start = children?.slice(0, children?.length - suffixCount).trim();
   const suffix = children?.slice(-suffixCount).trim();
+
+  const a = 1;
+
+  function a() {
+    console.log(a);
+  }
   return (
     <Text ellipsis={{ suffix }} {...restProps}>
       {start}
