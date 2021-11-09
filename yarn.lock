@@ -12271,7 +12271,7 @@ stylelint-declaration-block-no-ignored-properties@^2.1.0:
   resolved "https://registry.npmmirror.com/stylelint-declaration-block-no-ignored-properties/download/stylelint-declaration-block-no-ignored-properties-2.4.0.tgz#767f05aaa15353354f280d6e3245c76bff511010"
   integrity sha1-dn8FqqFTUzVPKA1uMkXHa/9REBA=
 
-stylelint@^13.7.0:
+stylelint@^13.0.0, stylelint@^13.7.0:
   version "13.13.1"
   resolved "https://registry.npmmirror.com/stylelint/download/stylelint-13.13.1.tgz#fca9c9f5de7990ab26a00f167b8978f083a18f3c"
   integrity sha1-/KnJ9d55kKsmoA8We4l48IOhjzw=
@@ -12794,7 +12794,7 @@ typedarray-to-buffer@^3.1.5:
   dependencies:
     is-typedarray "^1.0.0"
 
-typescript@^4.0.5, typescript@^4.3.5:
+typescript@^4.0.5, typescript@^4.2.2, typescript@^4.3.5:
   version "4.4.4"
   resolved "https://registry.yarnpkg.com/typescript/-/typescript-4.4.4.tgz#2cd01a1a1f160704d3101fd5a58ff0f9fcb8030c"
   integrity sha512-DqGhF5IKoBl8WNf8C1gu8q0xZSInh9j1kJJMqT3a94w1JzVaBU4EXOSMrz9yDqMT0xt3selp83fuFMQ0uzv6qA==
