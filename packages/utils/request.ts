@@ -12,7 +12,11 @@ import type {
   Context,
   OnionMiddleware,
 } from 'umi-request';
-import type { AjaxData, ParamsWithPagination, TableListData } from '@lc-nut/interfaces';
+import type {
+  AjaxData,
+  ParamsWithPagination,
+  TableListData,
+} from '@lc-nut/interfaces';
 import type { ErrorInfoStructure } from './error-type';
 import { HttpError, SystemError } from './error-type';
 
@@ -62,7 +66,10 @@ const errorHandler = (error: ResponseError) => {
   return Promise.reject(error);
 };
 /** 请求加token */
-const authHeaderInterceptor: RequestInterceptor = (url: string, options: RequestOptionsInit) => {
+const authHeaderInterceptor: RequestInterceptor = (
+  url: string,
+  options: RequestOptionsInit,
+) => {
   const token = store.get('token') || '';
   const { headers, ...rest } = options;
 
@@ -82,8 +89,13 @@ const pageTransformMap = {
   pageSizeLabel: 'pageSize',
 };
 // 处理page参数
-const pageParamsTransformer: RequestInterceptor = (url: string, options: RequestOptionsInit) => {
-  const params = options.params as (ParamsWithPagination<Record<any, any>>) | undefined;
+const pageParamsTransformer: RequestInterceptor = (
+  url: string,
+  options: RequestOptionsInit,
+) => {
+  const params = options.params as
+    | ParamsWithPagination<Record<any, any>>
+    | undefined;
   if (params?.current !== undefined) {
     const { current } = params;
     delete params.current;
@@ -115,7 +127,9 @@ const errorInterceptors: ResponseInterceptor = async (response, options) => {
           if (code === 'A0200') {
             store.remove('token');
             setTimeout(() => {
-              window.location.replace(`/login?redirect=${window.location.href}`);
+              window.location.replace(
+                `/login?redirect=${window.location.href}`,
+              );
             }, 200);
           }
           const systemErrorInfo: ErrorInfoStructure = {
@@ -126,7 +140,10 @@ const errorInterceptors: ResponseInterceptor = async (response, options) => {
           };
 
           // throw new SystemError(`${code} ${responseJson.message} ${response.url}`, systemErrorInfo);
-          throw new SystemError(`${code} ${responseJson.message}`, systemErrorInfo);
+          throw new SystemError(
+            `${code} ${responseJson.message}`,
+            systemErrorInfo,
+          );
         });
     }
     return response;
@@ -136,10 +153,16 @@ const errorInterceptors: ResponseInterceptor = async (response, options) => {
     success: false,
   };
   // throw new HttpError(`${response.status} ${response.statusText} ${response.url}`, httpErrorInfo);
-  throw new HttpError(`${response.status} ${response.statusText}`, httpErrorInfo);
+  throw new HttpError(
+    `${response.status} ${response.statusText}`,
+    httpErrorInfo,
+  );
 };
 
-const responseDataFormatter: OnionMiddleware = async (ctx: Context, next: () => void) => {
+const responseDataFormatter: OnionMiddleware = async (
+  ctx: Context,
+  next: () => void,
+) => {
   await next();
   const { res } = ctx;
   if (res instanceof Error) return;
@@ -187,4 +210,3 @@ request.interceptors.request.use(authHeaderInterceptor);
 request.interceptors.request.use(pageParamsTransformer);
 request.interceptors.response.use(errorInterceptors);
 request.use(responseDataFormatter);
-

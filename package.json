@@ -23,7 +23,8 @@
     "lint:js": "eslint --cache --ext .js,.jsx,.ts,.tsx --format=pretty ./packages",
     "lint:prettier": "prettier -c --write \"packages/**/*\" --end-of-line auto",
     "lint:style": "stylelint --fix \"packages/**/*.less\" --syntax less",
-    "precommit": "lint-staged"
+    "precommit": "lint-staged",
+    "tsc": "tsc --noEmit"
   },
   "main": "dist/index.js",
   "module": "dist/index.esm.js",
@@ -48,6 +49,7 @@
     "react": "^16.12.0 || ^17.0.0"
   },
   "devDependencies": {
+    "@types/store": "^2.0.2",
     "@umijs/fabric": "^2.8.1",
     "@umijs/test": "^3.0.5",
     "dumi": "^1.0.17",

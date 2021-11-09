@@ -8,7 +8,11 @@ export interface EllipsisMiddleProps extends TextProps {
   children?: string;
 }
 
-const EllipsisMiddle = ({ suffixCount, children, ...restProps }: EllipsisMiddleProps) => {
+const EllipsisMiddle = ({
+  suffixCount,
+  children,
+  ...restProps
+}: EllipsisMiddleProps) => {
   const start = children?.slice(0, children?.length - suffixCount).trim();
   const suffix = children?.slice(-suffixCount).trim();
 
@@ -20,4 +24,3 @@ const EllipsisMiddle = ({ suffixCount, children, ...restProps }: EllipsisMiddleP
 };
 
 export default EllipsisMiddle;
-

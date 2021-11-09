@@ -1,5 +1,4 @@
-
 export interface IFileObject {
-    fileName: string;
-    fileUrl: string;
+  fileName: string;
+  fileUrl: string;
 }

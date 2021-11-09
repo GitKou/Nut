@@ -30,32 +30,41 @@ export const initialUploadValue = (fileInfo: IFileObject[] | IFileObject) => {
 };
 
 export const beforeUpload =
-  ({ fileType, maxSize }: { fileType?: string | string[]; maxSize?: number | ByteData }) =>
-    (file: File) => {
-      if (fileType) {
-        // 校验文件类型
-        const fileTypeList = Array.isArray(fileType) ? fileType : [fileType];
-        if (!fileTypeList?.includes(file.type)) {
-          message.error(`仅支持文件格式${fileTypeList.join('\\')}`);
+  ({
+    fileType,
+    maxSize,
+  }: {
+    fileType?: string | string[];
+    maxSize?: number | ByteData;
+  }) =>
+  (file: File) => {
+    if (fileType) {
+      // 校验文件类型
+      const fileTypeList = Array.isArray(fileType) ? fileType : [fileType];
+      if (!fileTypeList?.includes(file.type)) {
+        message.error(`仅支持文件格式${fileTypeList.join('\\')}`);
+        return Upload.LIST_IGNORE;
+      }
+    }
+    if (maxSize !== undefined) {
+      // 校验文件大小
+      if (typeof maxSize === 'number') {
+        if (file.size > maxSize) {
+          message.error(`文件大小不能超过${maxSize}B`);
+          return Upload.LIST_IGNORE;
+        }
+      } else {
+        const limitSize = calcBytes(maxSize);
+        if (file.size > limitSize) {
+          message.error(
+            `文件大小不能超过${maxSize.number}${EByteSize[maxSize.unit]}`,
+          );
           return Upload.LIST_IGNORE;
         }
       }
-      if (maxSize !== undefined) {
-        // 校验文件大小
-        if (typeof maxSize === 'number') {
-          if (file.size > maxSize) {
-            message.error(`文件大小不能超过${maxSize}B`);
-            return Upload.LIST_IGNORE;
-          }
-        } else {
-          const limitSize = calcBytes(maxSize);
-          if (file.size > limitSize) {
-            message.error(`文件大小不能超过${maxSize.number}${EByteSize[maxSize.unit]}`);
-            return Upload.LIST_IGNORE;
-          }
-        }
-      }
-      return true;
-    };
+    }
+    return true;
+  };
 
-export const uploadAction = (file: RcFile) => `/api/common/file/upload?fileName=${encodeURIComponent(file.name)}`;
+export const uploadAction = (file: RcFile) =>
+  `/api/common/file/upload?fileName=${encodeURIComponent(file.name)}`;

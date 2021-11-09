@@ -10,7 +10,6 @@ export type PaginationQueryParams = {
   pageNo: number;
 };
 
-
 /** 标准antd/pagination组件接收的格式 */
 export type PaginationData = {
   pageSize: number;

@@ -5,5 +5,3 @@ function RequiredMark() {
 }
 
 export default RequiredMark;
-
-a = 1;
