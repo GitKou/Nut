@@ -1,20 +1,38 @@
 {
   "compilerOptions": {
-    "target": "esnext",
+    "outDir": "dist",
     "module": "esnext",
-    "moduleResolution": "node",
-    "importHelpers": true,
-    "jsx": "react",
-    "esModuleInterop": true,
+    "target": "esnext",
+    "lib": ["esnext", "dom"],
     "sourceMap": true,
-    "baseUrl": "./",
-    "strict": true,
-    "paths": {
-      "@/*": ["src/*"],
-      "@@/*": ["src/.umi/*"]
-    },
-    "allowSyntheticDefaultImports": true
+    "baseUrl": ".",
+    "jsx": "react-jsx",
+    "resolveJsonModule": true,
+    "allowSyntheticDefaultImports": true,
+    "moduleResolution": "node",
+    "forceConsistentCasingInFileNames": true,
+    "noImplicitReturns": true,
+    "suppressImplicitAnyIndexErrors": true,
+    "noUnusedLocals": true,
+    "allowJs": true,
+    "skipLibCheck": true,
+    "experimentalDecorators": true,
+    "strict": true
   },
+  "include": [
+    "mock/**/*",
+    "packages",
+    "tests/**/*",
+    "test/**/*",
+    "__test__/**/*",
+    "typings/**/*",
+    "config/**/*",
+    ".eslintrc.js",
+    ".stylelintrc.js",
+    ".prettierrc.js",
+    "jest.config.js",
+    "mock/*"
+  ],
   "exclude": [
     "node_modules",
     "lib",
