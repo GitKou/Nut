@@ -1,7 +1,7 @@
 import { message, Upload } from 'antd';
 import type { RcFile, UploadFileStatus } from 'antd/lib/upload/interface';
 import { uid } from 'uid';
-import type { IFileObject } from '../interfaces/file';
+import type { IFileObject } from '@lc-nut/interfaces';
 import type { ByteData } from './byte';
 import { calcBytes, EByteSize } from './byte';
 

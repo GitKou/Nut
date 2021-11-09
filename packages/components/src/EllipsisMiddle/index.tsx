@@ -17,7 +17,7 @@ const EllipsisMiddle = ({
   const suffix = children?.slice(-suffixCount).trim();
 
   return (
-    <Text ellipsis={{ suffix }} {...restProps}>
+    <Text ellipsis={{ suffix }} style={{ maxWidth: '100%' }} {...restProps}>
       {start}
     </Text>
   );
