@@ -17,7 +17,8 @@
     "docDeploy": "father doc deploy",
     "doc": "father doc",
     "bootstrap": "lerna bootstrap",
-    "publish": "lerna publish"
+    "publish": "lerna publish",
+    "precommit": "lint-staged"
   },
   "devDependencies": {
     "father": "^2.30.10",
