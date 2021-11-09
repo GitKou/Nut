@@ -1,4 +1,3 @@
-import React from 'react';
 import { Typography } from 'antd';
 import type { TextProps } from 'antd/lib/typography/Text';
 

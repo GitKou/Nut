@@ -1,4 +1,3 @@
-import React from 'react';
 import styles from './index.less';
 
 function RequiredMark() {
@@ -6,3 +5,5 @@ function RequiredMark() {
 }
 
 export default RequiredMark;
+
+a = 1;
