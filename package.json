@@ -24,14 +24,12 @@
     "lint:prettier": "prettier -c --write \"packages/**/*\" --end-of-line auto",
     "lint:style": "stylelint --fix \"packages/**/*.less\" --syntax less",
     "precommit": "lint-staged",
+    "prettier": "prettier -c --write \"src/**/*\"",
     "tsc": "tsc --noEmit"
   },
   "main": "dist/index.js",
   "module": "dist/index.esm.js",
   "typings": "dist/index.d.ts",
-  "gitHooks": {
-    "commit-msg": "fabric verify-commit"
-  },
   "lint-staged": {
     "**/*.less": "stylelint --syntax less",
     "**/*.{js,jsx,ts,tsx}": "npm run lint-staged:js",
@@ -58,5 +56,11 @@
     "lint-staged": "^10.0.7",
     "prettier": "^2.2.1",
     "yorkie": "^2.0.0"
+  },
+  "engines": {
+    "node": ">=10.0.0"
+  },
+  "gitHooks": {
+    "commit-msg": "fabric verify-commit"
   }
 }
