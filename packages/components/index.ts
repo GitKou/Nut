@@ -5,4 +5,9 @@ import RequiredMark from './RequiredMark';
 
 export type { EllipsisMiddleProps };
 
-export { EllipsisMiddle, RequiredMark };
+export {
+  EllipsisMiddle,
+  RequiredMark
+};
+
+a = 1
