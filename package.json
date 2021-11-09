@@ -32,7 +32,7 @@
     "commit-msg": "fabric verify-commit"
   },
   "lint-staged": {
-    "**/*.less": "stylelint --synteslintax less",
+    "**/*.less": "stylelint --syntax less",
     "**/*.{js,jsx,ts,tsx}": "npm run lint-staged:js",
     "**/*.{js,jsx,tsx,ts,less,md,json}": [
       "prettier --write"
