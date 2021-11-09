@@ -18,7 +18,19 @@
     "doc": "father doc",
     "bootstrap": "lerna bootstrap",
     "publish": "lerna publish",
-    "precommit": "lint-staged"
+    "postinstall": "umi g tmp",
+    "lint": "umi g tmp && npm run lint:js && npm run lint:style && npm run lint:prettier && npm run tsc",
+    "lint-staged": "lint-staged",
+    "lint-staged:js": "eslint --ext .js,.jsx,.ts,.tsx ",
+    "lint:fix": "eslint --fix --cache --ext .js,.jsx,.ts,.tsx --format=pretty ./src && npm run lint:style",
+    "lint:js": "eslint --cache --ext .js,.jsx,.ts,.tsx --format=pretty ./src",
+    "lint:prettier": "prettier -c --write \"src/**/*\" --end-of-line auto",
+    "lint:style": "stylelint --fix \"src/**/*.less\" --syntax less",
+    "precommit": "lint-staged",
+    "prettier": "prettier -c --write \"src/**/*\"",
+    "tsc": "tsc --noEmit"
+
+
   },
   "devDependencies": {
     "father": "^2.30.10",
