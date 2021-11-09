@@ -22,7 +22,3 @@ const EllipsisMiddle = ({ suffixCount, children, ...restProps }: EllipsisMiddleP
 
 export default EllipsisMiddle;
 
-const a = 1;
-function a{
-  console.log(a);
-}
