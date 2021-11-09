@@ -25,7 +25,18 @@
   },
   "name": "lc-nut",
   "dependencies": {
+    "@umijs/fabric": "^2.8.1",
     "antd": "^4.16.13"
   },
-  "version": "0.0.1"
+  "version": "0.0.1",
+  "lint-staged": {
+    "**/*.less": "stylelint --syntax less",
+    "**/*.{js,jsx,ts,tsx}": "npm run lint-staged:js",
+    "**/*.{js,jsx,tsx,ts,less,md,json}": [
+      "prettier --write"
+    ]
+  },
+  "gitHooks": {
+    "commit-msg": "fabric verify-commit"
+  }
 }
