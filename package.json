@@ -18,21 +18,17 @@
     "doc": "father doc",
     "bootstrap": "lerna bootstrap",
     "publish": "lerna publish",
-    "postinstall": "umi g tmp",
-    "lint": "umi g tmp && npm run lint:js && npm run lint:style && npm run lint:prettier && npm run tsc",
-    "lint-staged": "lint-staged",
-    "lint-staged:js": "eslint --ext .js,.jsx,.ts,.tsx ",
-    "lint:fix": "eslint --fix --cache --ext .js,.jsx,.ts,.tsx --format=pretty ./src && npm run lint:style",
-    "lint:js": "eslint --cache --ext .js,.jsx,.ts,.tsx --format=pretty ./src",
-    "lint:prettier": "prettier -c --write \"src/**/*\" --end-of-line auto",
-    "lint:style": "stylelint --fix \"src/**/*.less\" --syntax less",
-    "precommit": "lint-staged",
-    "prettier": "prettier -c --write \"src/**/*\"",
-    "tsc": "tsc --noEmit"
+    "lint": "eslint --cache --ext .js,.jsx,.ts,.tsx  --fix --format=pretty ./packages && npm run lint:prettier && npm run check-deps",
+    "lint:prettier": "npm run prettier &&  git diff && prettier --version && prettier --check \"packages/**/**.{js,jsx,tsx,ts,less,md,json}\" --end-of-line auto",
+    "prettier": "prettier --write \"**/**.{js,jsx,tsx,ts,less,md,json}\""
   },
   "devDependencies": {
+    "eslint": "^8.2.0",
     "father": "^2.30.10",
-    "lerna": "^4.0.0"
+    "lerna": "^4.0.0",
+    "lint-staged": "^11.2.6",
+    "pretty-quick": "^3.1.1",
+    "stylelint": "^14.0.1"
   },
   "name": "lc-nut",
   "dependencies": {
@@ -40,14 +36,15 @@
     "antd": "^4.16.13"
   },
   "version": "0.0.1",
-  "lint-staged": {
-    "**/*.less": "stylelint --syntax less",
-    "**/*.{js,jsx,ts,tsx}": "npm run lint-staged:js",
-    "**/*.{js,jsx,tsx,ts,less,md,json}": [
-      "prettier --write"
-    ]
-  },
   "gitHooks": {
+    "pre-commit": "pretty-quick --staged",
     "commit-msg": "fabric verify-commit"
-  }
+  },
+  "sideEffects": false,
+  "browserslist": [
+    "last 2 versions",
+    "Firefox ESR",
+    "> 1%",
+    "ie >= 11"
+  ]
 }
