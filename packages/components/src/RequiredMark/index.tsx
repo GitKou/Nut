@@ -1,8 +1,7 @@
-// import styles from './index.less';
+import styles from './index.less';
 
 function RequiredMark() {
-  // return <span className={styles.requiredMark}>*</span>;
-  return '*';
+  return <span className={styles.requiredMark}>*</span>;
 }
 
 export default RequiredMark;

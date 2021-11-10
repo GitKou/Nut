@@ -14,9 +14,10 @@ group:
 antd 的 form-item 的红星是通过配置 required 生成的，但是对于`upload`组件而言，校验必填的条件是自定义的。
 
 ```tsx
-// import { RequiredMark } from '@lc-nut/components'; // 可通过包名引入，而不是相对路径
+import React from 'react';
+import { RequiredMark } from '@lc-nut/components'; // 可通过包名引入，而不是相对路径
 
-// export default () => {
-//   return <RequiredMark />;
-// };
+export default () => {
+  return <RequiredMark />;
+};
 ```

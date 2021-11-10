@@ -46,18 +46,7 @@ export default defineConfig({
       path: 'https://gitlab.chaincity.net:8008/Common/Front-End/nut',
     },
   ],
-  // menus: {
-  //   '/components': [
-  //     {
-  //       title: '组件',
-  //       children: [
-  //         'EllipsisMiddle/index',
-  //         'RequiredMark/index',
-  //       ],
-  //     },
-  //   ],
-  // },
   webpack5: {},
   // mfsu: !isDeploy ? {} : undefined,
-  fastRefresh: {},
+  // fastRefresh: {},
 });
