@@ -48,5 +48,5 @@ export default defineConfig({
   ],
   webpack5: {},
   // mfsu: !isDeploy ? {} : undefined,
-  // fastRefresh: {},
+  fastRefresh: {},
 });
