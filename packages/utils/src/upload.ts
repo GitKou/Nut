@@ -1,7 +1,11 @@
 import { message, Upload } from 'antd';
-import type { RcFile, UploadFileStatus } from 'antd/lib/upload/interface';
+import type {
+  RcFile,
+  UploadFile,
+  UploadFileStatus,
+} from 'antd/lib/upload/interface';
 import { uid } from 'uid';
-import type { IFileObject } from '@lc-nut/interfaces';
+import type { IFileObject, AjaxData } from '@lc-nut/interfaces/src';
 import type { ByteData } from './byte';
 import { calcBytes, EByteSize } from './byte';
 
@@ -64,6 +68,15 @@ export const beforeUpload =
       }
     }
     return true;
+  };
+
+export const requiredUpload =
+  (p?: { min: number }) => (files: UploadFile<AjaxData<string>>[]) => {
+    const minNum = p?.min !== undefined ? p?.min : 1;
+    if (!files || files.filter((f) => f.status === 'done').length < minNum) {
+      return Promise.reject(new Error(`请至少上传${minNum}个文件`));
+    }
+    return Promise.resolve();
   };
 
 export const uploadAction = (file: RcFile) =>

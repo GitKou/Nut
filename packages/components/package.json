@@ -18,5 +18,9 @@
   "author": "",
   "license": "ISC",
   "description": "",
-  "gitHead": "c73c6383d4e4015236641e4e1cbdbf3cb54b16ed"
+  "gitHead": "c73c6383d4e4015236641e4e1cbdbf3cb54b16ed",
+  "devDependencies": {
+    "@lc-nut/interfaces": "^1.0.12",
+    "@lc-nut/utils": "^1.0.13"
+  }
 }
