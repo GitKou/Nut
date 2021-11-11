@@ -3,22 +3,26 @@ import type {
   RcFile,
   UploadFile,
   UploadFileStatus,
+  UploadChangeParam,
 } from 'antd/lib/upload/interface';
 import { uid } from 'uid';
 import type { IFileObject, AjaxData } from '@lc-nut/interfaces/src';
 import type { ByteData } from './byte';
 import { calcBytes, EByteSize } from './byte';
 
+/** 从url的末尾处获取文件名 */
 export const getFileNameFormUrlTail = (url?: string) =>
   url ? url.substr(url.lastIndexOf('/') + 1) : '';
 
-export const normFile = (e: any) => {
+/** getValueFromEvent	设置如何将 event 的值转换成字段值 */
+export const normFile = (e: UploadChangeParam) => {
   if (Array.isArray(e)) {
     return e;
   }
   return e && e.fileList;
 };
 
+/** 初始化表单中upload的value，一般用户编辑态的表单 */
 export const initialUploadValue = (fileInfo: IFileObject[] | IFileObject) => {
   if (fileInfo === undefined) {
     return fileInfo;
@@ -33,6 +37,7 @@ export const initialUploadValue = (fileInfo: IFileObject[] | IFileObject) => {
   }));
 };
 
+/** 在上传之前校验文件，支持校验文件类型、大小 */
 export const beforeUpload =
   ({
     fileType,
@@ -70,6 +75,7 @@ export const beforeUpload =
     return true;
   };
 
+/** 自定义文件必填校验，必须是上传已完成的文件 */
 export const requiredUpload =
   (p?: { min: number }) => (files: UploadFile<AjaxData<string>>[]) => {
     const minNum = p?.min !== undefined ? p?.min : 1;
@@ -79,5 +85,6 @@ export const requiredUpload =
     return Promise.resolve();
   };
 
+/** 上传的action带上fileName参数 */
 export const uploadAction = (file: RcFile) =>
   `/api/common/file/upload?fileName=${encodeURIComponent(file.name)}`;
