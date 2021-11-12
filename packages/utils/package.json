@@ -2,12 +2,14 @@
   "name": "@lc-nut/utils",
   "version": "1.0.13",
   "description": "",
-  "main": "index.js",
+  "main": "src/index",
   "scripts": {
+    "build": "node -v",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
   "license": "ISC",
+  "sideEffects": false,
   "dependencies": {
     "@lc-nut/interfaces": "^1.0.12",
     "store": "^2.0.12",

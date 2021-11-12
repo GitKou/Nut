@@ -4,6 +4,7 @@ import type { TextProps } from 'antd/lib/typography/Text';
 const { Text } = Typography;
 
 export interface EllipsisMiddleProps extends TextProps {
+  /** 后缀的个数 */
   suffixCount: number;
   children?: string;
 }

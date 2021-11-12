@@ -28,7 +28,7 @@ export default () => {
 };
 ```
 
-## EllipsisMiddle API
+# API
 
 ```ts
 import type { TextProps } from 'antd/lib/typography/Text';
@@ -38,7 +38,4 @@ export interface EllipsisMiddleProps extends TextProps {
 }
 ```
 
-| 参数                    | 说明       | 类型     | 默认值 |
-| ----------------------- | ---------- | -------- | ------ |
-| suffixCount             | 后缀的个数 | `number` | -      |
-| 更过参考 TextProps 参数 |            |          | -      |
+<API hideTitle></API>

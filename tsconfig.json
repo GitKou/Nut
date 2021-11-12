@@ -34,7 +34,8 @@
     ".eslintrc.js",
     ".stylelintrc.js",
     ".prettierrc.js",
-    "jest.config.js",
+    "webpack.config.js",
+    "webpack.common.js",
     "mock/*"
   ],
   "exclude": [
