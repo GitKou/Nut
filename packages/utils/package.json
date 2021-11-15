@@ -1,15 +1,23 @@
 {
   "name": "@lc-nut/utils",
   "version": "1.0.13",
-  "description": "",
-  "main": "src/index",
+  "description": "Utils, including request、upload、download、byte, etc.",
+  "main": "./lib/index.js",
+  "module": "./es/index.js",
+  "types": "./lib/index.d.ts",
+  "sideEffects": false,
+  "files": [
+    "dist",
+    "lib",
+    "es",
+    "package.json",
+    "README.md"
+  ],
   "scripts": {
-    "build": "node -v",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "gulp && webpack-cli"
   },
   "author": "",
   "license": "ISC",
-  "sideEffects": false,
   "dependencies": {
     "@lc-nut/interfaces": "^1.0.12",
     "store": "^2.0.12",

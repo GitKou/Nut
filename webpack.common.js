@@ -1,4 +1,15 @@
 module.exports = {
-  // 在 bundle 中删除dead code
+  output: {
+    libraryTarget: 'umd',
+    globalObject: 'this',
+  },
   mode: 'production',
+  resolve: {
+    extensions: ['.json', '.js'],
+  },
+  externals: [
+    {
+      react: 'React',
+    },
+  ],
 };
