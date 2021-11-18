@@ -1,5 +1,11 @@
 {
   "packages": ["packages/*"],
   "npmClient": "yarn",
-  "version": "1.0.14"
+  "version": "1.0.14",
+  "command": {
+    "publish": {
+      "allowBranch": "main",
+      "message": "chore(release): %s"
+    }
+  }
 }
