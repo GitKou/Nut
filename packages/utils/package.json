@@ -1,6 +1,6 @@
 {
   "name": "@lc-nut/utils",
-  "version": "1.0.13",
+  "version": "1.0.15",
   "description": "Utils, including request、upload、download、byte, etc.",
   "main": "./lib/index.js",
   "module": "./es/index.js",
@@ -19,7 +19,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@lc-nut/interfaces": "^1.0.12",
+    "@lc-nut/interfaces": "^1.0.15",
     "store": "^2.0.12",
     "uid": "^2.0.0",
     "umi-request": "^1.4.0"

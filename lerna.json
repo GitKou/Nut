@@ -1,7 +1,7 @@
 {
   "packages": ["packages/*"],
   "npmClient": "yarn",
-  "version": "1.0.14",
+  "version": "1.0.15",
   "command": {
     "publish": {
       "allowBranch": "main",
