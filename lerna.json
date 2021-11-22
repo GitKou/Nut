@@ -4,7 +4,6 @@
   "version": "1.0.15",
   "command": {
     "publish": {
-      "allowBranch": "main",
       "message": "chore(release): %s"
     }
   }
