@@ -16,10 +16,6 @@
     "declaration": false,
     "strictNullChecks": true
   },
-  // todo, 这样写packages里的src才会认识typings.d.ts，不知道为啥。
-  // 可是这样写，打包又有错。。后面看看
-  // 要么在新建typings在packages/toPath/typing.d.ts下
-  // "include": ["**/*"],
   "exclude": [
     "node_modules",
     "lib",

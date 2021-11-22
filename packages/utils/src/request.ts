@@ -200,7 +200,7 @@ const responseDataFormatter: OnionMiddleware = async (
 };
 
 /** 配置request请求时的默认参数 */
-export const request = extend({
+const request = extend({
   responseType: 'json',
   errorHandler, // 默认错误处理
   credentials: 'include', // 默认请求是否带上cookie
@@ -210,3 +210,5 @@ request.interceptors.request.use(authHeaderInterceptor);
 request.interceptors.request.use(pageParamsTransformer);
 request.interceptors.response.use(errorInterceptors);
 request.use(responseDataFormatter);
+
+export default request;
