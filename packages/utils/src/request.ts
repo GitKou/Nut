@@ -11,9 +11,16 @@ import type {
   ResponseInterceptor,
   Context,
   OnionMiddleware,
+  RequestMethod,
+  RequestOptionsWithoutResponse,
+  RequestOptionsWithResponse,
+  RequestResponse,
+  ExtendOptionsInit,
 } from 'umi-request';
 import type {
   AjaxData,
+  FormattedAjaxData,
+  FormattedAjaxDataWithPage,
   ParamsWithPagination,
   TableListData,
 } from '@lc-nut/interfaces';
@@ -21,7 +28,7 @@ import type { ErrorInfoStructure } from './error-type';
 import { HttpError, SystemError } from './error-type';
 
 /** 异常处理程序 */
-const errorHandler = (error: ResponseError) => {
+export const errorHandler = (error: ResponseError) => {
   // 网络异常
   if (error.message === 'Failed to fetch') {
     notification.error({
@@ -65,8 +72,9 @@ const errorHandler = (error: ResponseError) => {
   });
   return Promise.reject(error);
 };
+
 /** 请求加token */
-const authHeaderInterceptor: RequestInterceptor = (
+export const authHeaderInterceptor: RequestInterceptor = (
   url: string,
   options: RequestOptionsInit,
 ) => {
@@ -84,12 +92,13 @@ const authHeaderInterceptor: RequestInterceptor = (
     },
   };
 };
-const pageTransformMap = {
+
+export const pageTransformMap = {
   currentLabel: 'pageNo',
   pageSizeLabel: 'pageSize',
 };
 // 处理page参数
-const pageParamsTransformer: RequestInterceptor = (
+export const pageParamsTransformer: RequestInterceptor = (
   url: string,
   options: RequestOptionsInit,
 ) => {
@@ -112,9 +121,13 @@ const pageParamsTransformer: RequestInterceptor = (
     options,
   };
 };
-const errorInterceptors: ResponseInterceptor = async (response, options) => {
-  // 网络成功
+
+export const errorInterceptors: ResponseInterceptor = async (
+  response,
+  options,
+) => {
   if (response.status === 200) {
+    // 网络成功
     if (options.responseType === 'json') {
       return response
         .clone()
@@ -159,7 +172,7 @@ const errorInterceptors: ResponseInterceptor = async (response, options) => {
   );
 };
 
-const responseDataFormatter: OnionMiddleware = async (
+export const responseDataFormatter: OnionMiddleware = async (
   ctx: Context,
   next: () => void,
 ) => {
@@ -199,16 +212,45 @@ const responseDataFormatter: OnionMiddleware = async (
   // responseType非json不做处理
 };
 
-/** 配置request请求时的默认参数 */
-const request = extend({
+export interface FormattedRequestMethod<WithPage extends boolean = false>
+  extends RequestMethod<false> {
+  <T = any>(url: string, options?: RequestOptionsInit): Promise<
+    WithPage extends false ? FormattedAjaxData<T> : FormattedAjaxDataWithPage<T>
+  >;
+  <T = any>(url: string, options: RequestOptionsWithResponse): Promise<
+    RequestResponse<
+      WithPage extends false
+        ? FormattedAjaxData<T>
+        : FormattedAjaxDataWithPage<T>
+    >
+  >;
+  <T = any>(url: string, options: RequestOptionsWithoutResponse): Promise<
+    WithPage extends false ? FormattedAjaxData<T> : FormattedAjaxDataWithPage<T>
+  >;
+  get: FormattedRequestMethod<WithPage>;
+  post: FormattedRequestMethod<WithPage>;
+  delete: FormattedRequestMethod<WithPage>;
+  put: FormattedRequestMethod<WithPage>;
+  patch: FormattedRequestMethod<WithPage>;
+  head: FormattedRequestMethod<WithPage>;
+  options: FormattedRequestMethod<WithPage>;
+  rpc: FormattedRequestMethod<WithPage>;
+}
+
+export const options: ExtendOptionsInit = {
   responseType: 'json',
   errorHandler, // 默认错误处理
   credentials: 'include', // 默认请求是否带上cookie
-});
+};
+
+/** 配置request请求时的默认参数 */
+const request = extend(options) as FormattedRequestMethod;
 
 request.interceptors.request.use(authHeaderInterceptor);
 request.interceptors.request.use(pageParamsTransformer);
 request.interceptors.response.use(errorInterceptors);
 request.use(responseDataFormatter);
 
-export default request;
+const requestList = request as FormattedRequestMethod<true>;
+
+export { request, requestList };

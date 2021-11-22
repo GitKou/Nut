@@ -15,7 +15,7 @@ export type AjaxDataWithPage<T> = {
 };
 
 /** 格式化之后的数据格式 （不带分页）*/
-export interface FormattedAjaxData<T> {
+export interface FormattedAjaxData<T = any> {
   success: boolean;
   data: T;
   message: string;
@@ -23,10 +23,11 @@ export interface FormattedAjaxData<T> {
 }
 
 /** 格式化之后的 带分页的 数据格式 */
-export interface FormattedAjaxDataWithPage<T> {
+export interface FormattedAjaxDataWithPage<T = any> {
   success: boolean;
   data: T[];
   total: number;
+  current: number;
   message: string;
   code: string;
 }
