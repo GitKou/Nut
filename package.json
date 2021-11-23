@@ -23,7 +23,8 @@
     "lint:js": "eslint --cache --ext .js,.jsx,.ts,.tsx --format=pretty ./packages",
     "lint:prettier": "prettier -c --write \"packages/**/*\" --end-of-line auto",
     "lint:style": "stylelint --fix \"packages/**/*.less\" --syntax less",
-    "tsc": "tsc --noEmit"
+    "tsc": "tsc --noEmit",
+    "pub": "yarn run build && nrm use hosted && npm login && lerna publish"
   },
   "main": "dist/index.js",
   "module": "dist/index.esm.js",
