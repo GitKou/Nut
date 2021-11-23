@@ -22,48 +22,22 @@ export default defineConfig({
   ],
   hash: true,
   // more config: https://d.umijs.org/config
-  menus: {
-    '/guide': [
-      {
-        title: '指南',
-        children: [],
-      },
-    ],
-    '/components': [
-      { title: 'EllipsisMiddle', path: `components/EllipsisMiddle` },
-      { title: 'RequiredMark', path: `./RequiredMark` },
-    ],
-    '/utils': [
-      { title: 'request', path: `utils/request` },
-      { title: 'upload', path: `utils/upload` },
-    ],
-  },
-  navs: [
-    {
-      title: 'Guide',
-      path: '/guide',
-    },
-    {
-      title: 'Components',
-      path: '/components',
-    },
-    {
-      title: 'Interfaces',
-      path: '/interfaces',
-    },
-    {
-      title: 'Hooks',
-      path: '/hooks',
-    },
-    {
-      title: 'Utils',
-      path: '/utils',
-    },
-    {
-      title: 'GitLab',
-      path: 'https://gitlab.chaincity.net:8008/Common/Front-End/nut',
-    },
-  ],
+  // menus: {
+  //   '/guide': [
+  //     {
+  //       title: '指南',
+  //       children: [],
+  //     },
+  //   ],
+  //   '/components': [
+  //     { title: 'EllipsisMiddle', path: `./EllipsisMiddle` },
+  //     { title: 'RequiredMark', path: `./RequiredMark` },
+  //   ],
+  //   '/utils': [
+  //     { title: 'request', path: `./request` },
+  //     { title: 'upload', path: `./upload` },
+  //   ],
+  // },
   webpack5: {},
   // mfsu: !isDeploy ? {} : undefined,
   fastRefresh: {},

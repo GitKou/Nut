@@ -1,9 +1,10 @@
 import React from 'react';
-import ProTable, { ProColumns } from '@ant-design/pro-table';
+import type { ProColumns } from '@ant-design/pro-table';
+import ProTable from '@ant-design/pro-table';
 import { PlusOutlined } from '@ant-design/icons';
 import { Button } from 'antd';
 import { addUser, getUserList } from './service';
-import { UserInfo } from './interface';
+import type { UserInfo } from './interface';
 import { ModalForm, ProFormText } from '@ant-design/pro-form';
 
 const columns: ProColumns<UserInfo>[] = [
@@ -46,6 +47,6 @@ export default function User() {
           <ProFormText name="age" label="年龄" />
         </ModalForm>,
       ]}
-    ></ProTable>
+    />
   );
 }

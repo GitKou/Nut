@@ -13,6 +13,7 @@
     "bootstrap": "lerna bootstrap",
     "clean": "lerna clean --yes",
     "build": "lerna run build",
+    "build:doc": "dumi build",
     "test": "jest",
     "prettier": "prettier -c --write \"src/**/*\"",
     "lint": "umi g tmp && npm run lint:js && npm run lint:style && npm run lint:prettier && npm run tsc",
@@ -40,6 +41,7 @@
     "react": "^16.12.0 || ^17.0.0"
   },
   "devDependencies": {
+    "@ant-design/pro-table": "^2.57.3",
     "@types/store": "^2.0.2",
     "@umijs/fabric": "^2.8.1",
     "@umijs/test": "^3.0.5",

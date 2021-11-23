@@ -27,8 +27,5 @@
   "publishConfig": {
     "access": "public"
   },
-  "gitHead": "4e75da1a2877f8a3dc6a86af2fd4711fee0337db",
-  "devDependencies": {
-    "@ant-design/pro-table": "^2.57.3"
-  }
+  "gitHead": "4e75da1a2877f8a3dc6a86af2fd4711fee0337db"
 }

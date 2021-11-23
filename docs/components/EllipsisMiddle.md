@@ -28,4 +28,4 @@ export interface EllipsisMiddleProps extends TextProps {
 }
 ```
 
-<API hideTitle></API>
+<API src="../../packages/components/src/EllipsisMiddle/index.tsx" hideTitle></API>
