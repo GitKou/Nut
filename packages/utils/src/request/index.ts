@@ -251,6 +251,6 @@ request.interceptors.request.use(pageParamsTransformer);
 request.interceptors.response.use(errorInterceptors);
 request.use(responseDataFormatter);
 
-const requestList = request as FormattedRequestMethod<true>;
+const requestTable = request as FormattedRequestMethod<true>;
 
-export { request, requestList };
+export { request, requestTable };

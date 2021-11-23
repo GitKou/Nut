@@ -1,13 +1,3 @@
----
-title: upload
-order: 1
-nav:
-  path: /utils
-  # title: 上传
-group:
-  path: /
----
-
 # upload
 
 在 antd 中，表单项 label 上的必填红星`*`，可通过配置 required 自动生成。

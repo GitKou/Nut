@@ -1,13 +1,3 @@
----
-title: EllipsisMiddle - 文字中间省略
-order: 0
-nav:
-  path: /components
-  title: 数据展示
-group:
-  path: /
----
-
 # EllipsisMiddle
 
 从中间省略内容的组件，适合于需要保留文本末位特征的内容。

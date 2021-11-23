@@ -1,4 +1,5 @@
 import { defineConfig } from 'dumi';
+import path from 'path';
 let BaseUrl = '';
 
 const isDeploy = process.env.SITE_DEPLOY === 'TRUE';
@@ -20,6 +21,23 @@ export default defineConfig({
     ],
   ],
   hash: true,
+  // more config: https://d.umijs.org/config
+  menus: {
+    '/guide': [
+      {
+        title: '指南',
+        children: [],
+      },
+    ],
+    '/components': [
+      { title: 'EllipsisMiddle', path: `components/EllipsisMiddle` },
+      { title: 'RequiredMark', path: `./RequiredMark` },
+    ],
+    '/utils': [
+      { title: 'request', path: `utils/request` },
+      { title: 'upload', path: `utils/upload` },
+    ],
+  },
   navs: [
     {
       title: 'Guide',

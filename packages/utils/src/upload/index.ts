@@ -7,8 +7,8 @@ import type {
 } from 'antd/lib/upload/interface';
 import { uid } from 'uid';
 import type { IFileObject, AjaxData } from '@lc-nut/interfaces/src';
-import type { ByteData } from './byte';
-import { calcBytes, EByteSize } from './byte';
+import type { ByteData } from '../byte';
+import { calcBytes, EByteSize } from '../byte';
 
 /** 从url的末尾处获取文件名 */
 export const getFileNameFormUrlTail = (url?: string) =>

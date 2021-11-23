@@ -1,13 +1,3 @@
----
-title: RequiredMark - 必填红星星
-order: 1
-nav:
-  path: /components
-  title: 数据展示
-group:
-  path: /
----
-
 # RequiredMark
 
 在 antd 中，表单项 label 上的必填红星`*`，可通过配置 required 自动生成。
