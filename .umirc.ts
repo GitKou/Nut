@@ -21,23 +21,6 @@ export default defineConfig({
     ],
   ],
   hash: true,
-  // more config: https://d.umijs.org/config
-  // menus: {
-  //   '/guide': [
-  //     {
-  //       title: '指南',
-  //       children: [],
-  //     },
-  //   ],
-  //   '/components': [
-  //     { title: 'EllipsisMiddle', path: `./EllipsisMiddle` },
-  //     { title: 'RequiredMark', path: `./RequiredMark` },
-  //   ],
-  //   '/utils': [
-  //     { title: 'request', path: `./request` },
-  //     { title: 'upload', path: `./upload` },
-  //   ],
-  // },
   webpack5: {},
   // mfsu: !isDeploy ? {} : undefined,
   fastRefresh: {},
