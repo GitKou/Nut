@@ -1,0 +1,79 @@
+{
+  "private": true,
+  "name": "lc-nut",
+  "version": "1.0.0",
+  "repository": {
+    "type": "git",
+    "url": "https://gitlab.chaincity.net:8008/Common/Front-End/nut.git"
+  },
+  "scripts": {
+    "init-all": "rm -rf node_modules && yarn install && yarn run clean && yarn run bootstrap && yarn run build",
+    "start": "dumi dev",
+    "dev": "dumi dev",
+    "bootstrap": "lerna bootstrap",
+    "clean": "lerna clean --yes",
+    "build": "lerna run build",
+    "build:doc": "dumi build",
+    "pub": "yarn run build && nrm use hosted && npm login && lerna publish",
+    "pub:doc": "yarn run build:doc && surge ./dist --domain lc-nut.surge.sh",
+    "test": "jest",
+    "prettier": "prettier -c --write \"src/**/*\"",
+    "lint": "umi g tmp && npm run lint:js && npm run lint:style && npm run lint:prettier && npm run tsc",
+    "lint-staged": "lint-staged",
+    "lint-staged:js": "eslint --ext .js,.jsx,.ts,.tsx ",
+    "lint:fix": "eslint --fix --cache --ext .js,.jsx,.ts,.tsx --format=pretty ./packages && npm run lint:style",
+    "lint:js": "eslint --cache --ext .js,.jsx,.ts,.tsx --format=pretty ./packages",
+    "lint:prettier": "prettier -c --write \"packages/**/*\" --end-of-line auto",
+    "lint:style": "stylelint --fix \"packages/**/*.less\" --syntax less",
+    "tsc": "tsc --noEmit"
+  },
+  "main": "dist/index.js",
+  "module": "dist/index.esm.js",
+  "typings": "dist/index.d.ts",
+  "lint-staged": {
+    "**/*.less": "stylelint --syntax less",
+    "**/*.{js,jsx,ts,tsx}": "npm run lint-staged:js",
+    "**/*.{js,jsx,tsx,ts,less,md,json}": [
+      "prettier --write"
+    ]
+  },
+  "dependencies": {
+    "@ant-design/pro-form": "^1.46.0",
+    "antd": "^4.16.13",
+    "react": "^16.12.0 || ^17.0.0"
+  },
+  "devDependencies": {
+    "@ant-design/pro-table": "^2.57.3",
+    "@types/store": "^2.0.2",
+    "@umijs/fabric": "^2.8.1",
+    "@umijs/test": "^3.0.5",
+    "babel-plugin-import": "^1.13.3",
+    "babel-plugin-transform-async-to-promises": "^0.8.15",
+    "cross-env": "^7.0.3",
+    "del": "^6.0.0",
+    "dumi": "^1.0.17",
+    "father-build": "^1.17.2",
+    "gh-pages": "^3.0.0",
+    "gulp": "^4.0.2",
+    "gulp-babel": "^8.0.0",
+    "gulp-typescript": "^6.0.0-alpha.1",
+    "lerna": "^4.0.0",
+    "lint-staged": "^10.0.7",
+    "prettier": "^2.2.1",
+    "stylelint": "^13.0.0",
+    "surge": "^0.23.0",
+    "ts-loader": "^9.2.6",
+    "typescript": "^4.4.4",
+    "webpack": "^5.64.0",
+    "webpack-cli": "^4.9.1",
+    "webpack-merge": "^5.8.0",
+    "yorkie": "^2.0.0"
+  },
+  "engines": {
+    "node": ">=10.0.0"
+  },
+  "gitHooks": {
+    "commit-msg": "fabric verify-commit",
+    "pre-commit": "lint-staged"
+  }
+}

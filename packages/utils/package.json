@@ -1,0 +1,31 @@
+{
+  "name": "@lc-nut/utils",
+  "version": "1.0.18",
+  "description": "Utils, including request、upload、download、byte, etc.",
+  "main": "./lib/index.js",
+  "module": "./es/index.js",
+  "types": "./lib/index.d.ts",
+  "sideEffects": false,
+  "files": [
+    "dist",
+    "lib",
+    "es",
+    "package.json",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "gulp && webpack-cli"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@lc-nut/interfaces": "^1.0.18",
+    "store": "^2.0.12",
+    "uid": "^2.0.0",
+    "umi-request": "^1.4.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "gitHead": "4e75da1a2877f8a3dc6a86af2fd4711fee0337db"
+}

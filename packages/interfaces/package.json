@@ -1,0 +1,20 @@
+{
+  "name": "@lc-nut/interfaces",
+  "version": "1.0.18",
+  "main": "./src/index.ts",
+  "module": "./src/index.ts",
+  "sideEffects": false,
+  "files": [
+    "dist",
+    "lib",
+    "es",
+    "package.json",
+    "README.md"
+  ],
+  "scripts": {
+    "build": ""
+  },
+  "author": "",
+  "license": "ISC",
+  "gitHead": "4e75da1a2877f8a3dc6a86af2fd4711fee0337db"
+}
