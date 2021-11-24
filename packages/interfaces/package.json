@@ -5,9 +5,7 @@
   "module": "./src/index.ts",
   "sideEffects": false,
   "files": [
-    "dist",
-    "lib",
-    "es",
+    "src",
     "package.json",
     "README.md"
   ],

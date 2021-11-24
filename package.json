@@ -54,6 +54,7 @@
     "del": "^6.0.0",
     "dumi": "^1.0.17",
     "father-build": "^1.17.2",
+    "fetch-mock": "^9.11.0",
     "gh-pages": "^3.0.0",
     "gulp": "^4.0.2",
     "gulp-babel": "^8.0.0",
