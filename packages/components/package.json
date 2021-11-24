@@ -1,6 +1,6 @@
 {
   "name": "@lc-nut/components",
-  "version": "1.0.18",
+  "version": "1.0.19",
   "description": "common components",
   "main": "./lib/index.js",
   "module": "./es/index.js",
@@ -25,8 +25,8 @@
   "license": "ISC",
   "gitHead": "c73c6383d4e4015236641e4e1cbdbf3cb54b16ed",
   "devDependencies": {
-    "@lc-nut/interfaces": "^1.0.18",
-    "@lc-nut/utils": "^1.0.18",
+    "@lc-nut/interfaces": "^1.0.19",
+    "@lc-nut/utils": "^1.0.19",
     "css-loader": "^6.5.1",
     "less-loader": "^10.2.0"
   }

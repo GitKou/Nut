@@ -1,6 +1,6 @@
 {
   "name": "@lc-nut/interfaces",
-  "version": "1.0.18",
+  "version": "1.0.19",
   "main": "./src/index.ts",
   "module": "./src/index.ts",
   "sideEffects": false,
