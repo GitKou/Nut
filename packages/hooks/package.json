@@ -1,6 +1,6 @@
 {
   "name": "@lc-nut/hooks",
-  "version": "1.0.18",
+  "version": "1.0.20",
   "description": "hooks",
   "main": "./lib/index.js",
   "module": "./es/index.js",
