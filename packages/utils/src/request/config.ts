@@ -9,7 +9,8 @@ export type RequestConfigParams = {
   loginUrl?: string;
   redirectToLoginCode?: string;
   successCode?: string | number;
-  unauthorizedCb?: () => void;
+  errorNotify?: (error: ErrorHandlerError) => void;
+  unauthorizedCb?: (error: ErrorHandlerError) => void;
 };
 
 export class RequestConfig {
