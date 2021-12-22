@@ -12,8 +12,17 @@ export interface ErrorInfoStructure {
   statusText?: string; //response status text
 }
 
-export type ErrorName = 'BusinessError' | 'HttpError' | 'PremiseError';
+export type ErrorName =
+  | 'Unauthorized'
+  | 'BusinessError'
+  | 'HttpError'
+  | 'PremiseError';
 export const ErrorNames: ErrorName[] = [
+  /**
+   * 需登录
+   * 仅在restful模式下
+   */
+  'Unauthorized',
   /**
    * 系统错误，
    * old 模式下：http 状态码为 200，但响应数据中 res.code !== '200'的错误
@@ -36,6 +45,7 @@ export const ErrorCnames: Record<ErrorName, string> = {
   BusinessError: '系统错误',
   HttpError: '网络错误',
   PremiseError: '前置错误',
+  Unauthorized: '请重新登录',
 };
 export class ErrorInfo extends Error {
   info: ErrorInfoStructure;

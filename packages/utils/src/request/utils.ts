@@ -27,14 +27,24 @@ export const errorHandler = (error: ErrorHandlerError) => {
     // 网络异常
     notification.error({
       message: '网络异常',
-      description: `${error.message}:${error?.request?.url}`,
+      description: `${error?.info.status} ${error?.info.statusText} ${error?.request?.url}`,
     });
     // 阻断执行，并将错误信息传递下去
     return Promise.reject(error);
   }
 
+  if (error.name === 'Unauthorized') {
+    requestConfig?.unauthorizedCb(error);
+    return Promise.reject(error);
+  }
+
   if (ErrorNames.includes(error.name)) {
-    // 自定义异常
+    if (requestConfig?.errorNotify) {
+      // 如果有自定义，用自定义的
+      requestConfig?.errorNotify(error);
+      return Promise.reject(error);
+    }
+    // 默认notification
     notification.error({
       message: error.info.message || error.cname,
       description: `${error?.info.status} ${error?.info.statusText} ${error?.request?.url}`,
@@ -130,10 +140,17 @@ export const restfulErrorInterceptors: ResponseInterceptor = async (
     };
     throw new ErrorInfo('HttpError', badRequestErrorInfo);
   }
+
   if (response.status === HTTP_STATUS.UNAUTHORIZED) {
-    // 401, 未登录，body文本类型
-    requestConfig.unauthorizedCb();
-    return response;
+    // 401 需要登录
+    const unauthorizedErrorInfo: ErrorInfoStructure = {
+      success: false,
+      // todo, maybe get the message from response body
+      message: 'token已过期，请重新登录',
+      statusText: response.statusText,
+      status: response.status,
+    };
+    throw new ErrorInfo('Unauthorized', unauthorizedErrorInfo);
   }
   if (response.status === HTTP_STATUS.BUSINESS_EXCEPTION) {
     // 403, 业务异常，body: {code:string, message:string}
@@ -179,10 +196,14 @@ export const errorInterceptors: ResponseInterceptor = async (
             return response;
           }
           if (code === requestConfig.redirectToLoginCode) {
-            requestConfig?.unauthorizedCb();
-            return response;
+            const unauthorizedErrorInfo: ErrorInfoStructure = {
+              success: false,
+              message: message || 'token已过期，请重新登录',
+              statusText: response.statusText,
+              status: response.status,
+            };
+            throw new ErrorInfo('Unauthorized', unauthorizedErrorInfo);
           }
-
           const systemErrorInfo: ErrorInfoStructure = {
             success: false,
             data,
@@ -191,7 +212,6 @@ export const errorInterceptors: ResponseInterceptor = async (
             status: response.status,
             statusText: response.statusText,
           };
-
           throw new ErrorInfo('BusinessError', systemErrorInfo);
         });
     }
@@ -203,7 +223,6 @@ export const errorInterceptors: ResponseInterceptor = async (
     status: response.status,
     statusText: response.statusText,
   };
-  // throw new HttpError(`${response.status} ${response.statusText} ${response.url}`, httpErrorInfo);
   throw new ErrorInfo('HttpError', httpErrorInfo);
 };
 

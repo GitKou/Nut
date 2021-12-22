@@ -1,8 +1,7 @@
 export default {
-  'POST /api/user/add': {
-    code: '200',
-    data: { name: 'gmm', age: 20, id: 3 },
-    message: '成功',
+  'POST /api/user/add': (req, res) => {
+    res.type('text').status(401).send('请重新登录');
+    // res.type('application/json').status(200).send({ name: 'gmm', age: 18 });
   },
   // 支持自定义函数，API 参考 express@4
   'GET /api/user/list': (req, res) => {

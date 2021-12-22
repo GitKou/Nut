@@ -1,3 +1,7 @@
+import { message } from 'antd';
+import store from 'store';
+import { ErrorHandlerError } from './error-type';
+
 export type RequestConfigParams = {
   /** old: httpStatus除了200，其他无意义，通过responseBody里的code做处理；restful：httpStatus有意义，参见./http-status.ts */
   mode?: 'old' | 'restful';
@@ -14,14 +18,16 @@ export class RequestConfig {
   loginUrl = '/login';
   successCode: RequestConfigParams['successCode'] = '200';
   redirectToLoginCode? = 'A0200';
+  errorNotify?: (error: ErrorHandlerError) => void;
 
-  unauthorizedCb() {
+  unauthorizedCb(error: ErrorHandlerError) {
     store.remove('token');
-    setTimeout(() => {
+    message.warning(error.info.message || 'token已过期，请重新登录', 1);
+    message.loading('正在跳转至登录页面......', 1).then(() => {
       window.location.replace(
         `${this.loginUrl}?redirect=${window.location.href}`,
       );
-    }, 200);
+    });
   }
 
   constructor(config?: RequestConfigParams) {
