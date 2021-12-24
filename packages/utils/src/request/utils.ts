@@ -3,6 +3,8 @@ import type {
   ParamsWithPagination,
   AjaxData,
   TableListData,
+  FormattedAjaxData,
+  FormattedAjaxDataWithPage,
 } from '@lc-nut/interfaces';
 import type { ErrorInfoStructure, ErrorHandlerError } from './error-type';
 import { ErrorInfo, ErrorNames } from './error-type';
@@ -223,6 +225,34 @@ export const errorInterceptors: ResponseInterceptor = async (
   throw new ErrorInfo('HttpError', httpErrorInfo);
 };
 
+const formattedAjaxData = (resp: any) => {
+  if (
+    typeof resp === 'object' &&
+    resp !== null &&
+    'totalCount' in resp &&
+    'currentPage' in resp
+  ) {
+    // 如果是带分页的json
+    const { totalCount, currentPage } = resp as TableListData<any>;
+    return {
+      success: true,
+      data: resp?.list || [],
+      total: totalCount,
+      current: currentPage,
+      code: resp?.code || HTTP_STATUS.SUCCESS,
+      message: resp?.message || 'OK',
+    } as unknown as FormattedAjaxDataWithPage;
+  } else {
+    // 如果是不带分页的json
+    return {
+      success: true,
+      data: resp,
+      code: resp?.code || HTTP_STATUS.SUCCESS,
+      message: resp?.message || 'OK',
+    } as unknown as FormattedAjaxData;
+  }
+};
+
 export const responseDataFormatter: OnionMiddleware = async (
   ctx: Context,
   next: () => void,
@@ -231,34 +261,10 @@ export const responseDataFormatter: OnionMiddleware = async (
   const { res } = ctx;
   if (res instanceof Error) return;
   const oRes = res as AjaxData<any>;
-  const { code, message, data } = oRes;
+  const { code, data } = oRes;
   // 如果返回responseType的是json
   if (code !== undefined) {
-    if (
-      typeof data === 'object' &&
-      data !== null &&
-      'totalCount' in data &&
-      'currentPage' in data
-    ) {
-      // 如果是带分页的json
-      const { totalCount, currentPage } = data as TableListData<any>;
-      ctx.res = {
-        success: true,
-        data: data?.list,
-        total: totalCount,
-        current: currentPage,
-        message,
-        code,
-      };
-    } else {
-      // 如果是不带分页的json
-      ctx.res = {
-        success: true,
-        data,
-        message,
-        code,
-      };
-    }
+    ctx.res = formattedAjaxData(data);
   }
   // responseType非json不做处理
 };
@@ -271,27 +277,5 @@ export const restfulResponseDataFormatter: OnionMiddleware = async (
   await next();
   const { res } = ctx;
   if (res instanceof Error) return;
-  if (
-    typeof res === 'object' &&
-    res !== null &&
-    'totalCount' in res &&
-    'currentPage' in res
-  ) {
-    // 如果是带分页的json
-    const { totalCount, currentPage } = res as TableListData<any>;
-    ctx.res = {
-      success: true,
-      data: res?.list,
-      total: totalCount,
-      current: currentPage,
-      code: HTTP_STATUS.SUCCESS,
-    };
-  } else {
-    // 如果是不带分页的json
-    ctx.res = {
-      success: true,
-      data: res,
-      code: HTTP_STATUS.SUCCESS,
-    };
-  }
+  ctx.res = formattedAjaxData(res);
 };
