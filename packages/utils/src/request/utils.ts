@@ -64,7 +64,7 @@ export const authHeaderInterceptor: RequestInterceptor = (
   url: string,
   options: RequestOptionsInit,
 ) => {
-  const token = store.get(requestConfig.tokenName) || '';
+  const token = store.get(requestConfig.tokenName);
   const { headers, ...rest } = options;
 
   return {

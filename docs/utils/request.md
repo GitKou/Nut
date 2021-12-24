@@ -4,12 +4,12 @@
 
 ```ts
 export type RequestConfigParams = {
-  /** 接口模式
+  /** 接口模式，默认值old
    * 旧的 old:用responseBody里的code表示所有状态的
    * 新的 restful，:http status 400 401 403 200 500有含义参见./http-status.ts
    * */
   mode?: 'old' | 'restful';
-  /** 自定义token的名字 */
+  /** 自定义token的名字，默认是 access-token */
   tokenName?: string;
   /** old模式下，responseBody.code==='redirectToLoginCode',跳转至登录页面 */
   redirectToLoginCode?: string;
