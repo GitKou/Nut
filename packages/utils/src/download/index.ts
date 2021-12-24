@@ -2,7 +2,7 @@ import request from 'umi-request';
 import type { RequestOptionsWithResponse } from 'umi-request';
 import { message } from 'antd';
 import store from 'store';
-import { requestConfig } from '@lc-nut/utils';
+import { requestConfig } from '../request/config';
 
 /**
  * 【表单形式提交下载】
