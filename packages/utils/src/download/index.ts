@@ -2,6 +2,7 @@ import request from 'umi-request';
 import type { RequestOptionsWithResponse } from 'umi-request';
 import { message } from 'antd';
 import store from 'store';
+import { requestConfig } from '@lc-nut/utils';
 
 /**
  * 【表单形式提交下载】
@@ -11,7 +12,7 @@ export const download = (
   params: Record<string, any> = {},
   method: 'GET' | 'POST' = 'GET',
 ) => {
-  const token = store.get('token');
+  const token = store.get(requestConfig.tokenName);
 
   const form = document.createElement('form');
   form.action = action;
@@ -21,7 +22,7 @@ export const download = (
     // 处理token
     const tokenInput = document.createElement('input');
     tokenInput.type = 'hidden';
-    tokenInput.name = 'access-token';
+    tokenInput.name = requestConfig.tokenName;
     tokenInput.value = token;
     form.appendChild(tokenInput);
   }

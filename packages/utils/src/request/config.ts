@@ -34,7 +34,7 @@ export class RequestConfig {
   errorNotify?: (error: ErrorHandlerError) => void;
 
   unauthorizedCb(error: ErrorHandlerError) {
-    store.remove('token');
+    store.remove(this.tokenName);
     message.warning(error.info.message || 'token已过期，请重新登录', 1);
     message.loading('正在跳转至登录页面......', 1).then(() => {
       window.location.replace(

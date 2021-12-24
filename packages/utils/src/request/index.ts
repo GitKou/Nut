@@ -56,4 +56,4 @@ function setRequestConfig(configParams: Partial<RequestConfigParams>) {
   newARequest();
 }
 
-export { request, requestTable, setRequestConfig };
+export { request, requestTable, setRequestConfig, requestConfig };

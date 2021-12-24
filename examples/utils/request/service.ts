@@ -1,4 +1,9 @@
-import { request, requestTable, setRequestConfig } from '@lc-nut/utils';
+import {
+  request,
+  requestTable,
+  setRequestConfig,
+  requestConfig,
+} from '@lc-nut/utils';
 import { message } from 'antd';
 import type { UserInfo } from './interface';
 
@@ -10,6 +15,7 @@ setRequestConfig({
   },
 });
 
+console.log('requestConfig==', requestConfig);
 export async function addUser(data: Omit<UserInfo, 'id'>) {
   return request.post<UserInfo>('/api/user/add', { data });
 }
