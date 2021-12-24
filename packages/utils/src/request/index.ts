@@ -3,7 +3,8 @@
 import { extend } from 'umi-request';
 
 import type { ExtendOptionsInit } from 'umi-request';
-import { requestConfig, RequestConfigParams } from './config';
+import type { RequestConfigParams } from './config';
+import { requestConfig } from './config';
 import type { FormattedRequestMethod } from './interfaces';
 import {
   authHeaderInterceptor,
@@ -12,6 +13,7 @@ import {
   pageParamsTransformer,
   responseDataFormatter,
   restfulErrorInterceptors,
+  restfulResponseDataFormatter,
 } from './utils';
 
 /** 配置request请求时的默认参数 */
@@ -35,7 +37,13 @@ function newARequest() {
       : errorInterceptors,
     { global: false },
   );
-  request.use(responseDataFormatter, { global: false });
+  request.use(
+    requestConfig.mode === 'restful'
+      ? restfulResponseDataFormatter
+      : responseDataFormatter,
+    { global: false },
+  );
+  // request.use(responseDataFormatter, { global: false });
   requestTable = request;
   return request;
 }

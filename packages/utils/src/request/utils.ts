@@ -1,17 +1,13 @@
 import { notification } from 'antd';
-import {
+import type {
   ParamsWithPagination,
   AjaxData,
   TableListData,
 } from '@lc-nut/interfaces';
-import {
-  ErrorInfoStructure,
-  ErrorInfo,
-  ErrorNames,
-  ErrorHandlerError,
-} from './error-type';
+import type { ErrorInfoStructure, ErrorHandlerError } from './error-type';
+import { ErrorInfo, ErrorNames } from './error-type';
 import { HTTP_STATUS } from './http-status';
-import {
+import type {
   Context,
   OnionMiddleware,
   RequestInterceptor,
@@ -111,6 +107,7 @@ export const restfulErrorInterceptors: ResponseInterceptor = async (
   response,
   options,
 ) => {
+  // console.log("restfulErrorInterceptors: ", response);
   if (response.status === HTTP_STATUS.SUCCESS) {
     // 200, 接口正常返回，body任何形式
     if (options.responseType === 'json') {
@@ -264,4 +261,37 @@ export const responseDataFormatter: OnionMiddleware = async (
     }
   }
   // responseType非json不做处理
+};
+
+export const restfulResponseDataFormatter: OnionMiddleware = async (
+  ctx: Context,
+  next: () => void,
+) => {
+  // console.log("restfulResponseDataFormatter: ", ctx.res);
+  await next();
+  const { res } = ctx;
+  if (res instanceof Error) return;
+  if (
+    typeof res === 'object' &&
+    res !== null &&
+    'totalCount' in res &&
+    'currentPage' in res
+  ) {
+    // 如果是带分页的json
+    const { totalCount, currentPage } = res as TableListData<any>;
+    ctx.res = {
+      success: true,
+      data: res?.list,
+      total: totalCount,
+      current: currentPage,
+      code: HTTP_STATUS.SUCCESS,
+    };
+  } else {
+    // 如果是不带分页的json
+    ctx.res = {
+      success: true,
+      data: res,
+      code: HTTP_STATUS.SUCCESS,
+    };
+  }
 };

@@ -22,10 +22,13 @@ const columns: ProColumns<UserInfo>[] = [
 ];
 
 export default function User() {
-  const { data, run: add } = useRequest(addUser, {
+  const { data: addData, run: add } = useRequest(addUser, {
     manual: true,
+    onSuccess: async (data) => {
+      console.log('onSuccess data: ', data);
+    },
   });
-  console.log('data', data);
+  console.log('add user data: ', addData);
 
   return (
     <ProTable
