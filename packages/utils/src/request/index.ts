@@ -12,8 +12,8 @@ import {
   errorInterceptors,
   pageParamsTransformer,
   responseDataFormatter,
-  restfulErrorInterceptors,
-  restfulResponseDataFormatter,
+  // restfulErrorInterceptors,
+  // restfulResponseDataFormatter,
 } from './utils';
 
 /** 配置request请求时的默认参数 */
@@ -31,18 +31,20 @@ function newARequest() {
   request = extend(options) as FormattedRequestMethod;
   request.interceptors.request.use(authHeaderInterceptor, { global: false });
   request.interceptors.request.use(pageParamsTransformer, { global: false });
-  request.interceptors.response.use(
-    requestConfig.mode === 'restful'
-      ? restfulErrorInterceptors
-      : errorInterceptors,
-    { global: false },
-  );
-  request.use(
-    requestConfig.mode === 'restful'
-      ? restfulResponseDataFormatter
-      : responseDataFormatter,
-    { global: false },
-  );
+  request.interceptors.response.use(errorInterceptors, { global: false });
+  request.use(responseDataFormatter, { global: false });
+  // request.interceptors.response.use(
+  //   requestConfig.mode === 'restful'
+  //     ? restfulErrorInterceptors
+  //     : errorInterceptors,
+  //   { global: false },
+  // );
+  // request.use(
+  //   requestConfig.mode === 'restful'
+  //     ? restfulResponseDataFormatter
+  //     : responseDataFormatter,
+  //   { global: false },
+  // );
   // request.use(responseDataFormatter, { global: false });
   requestTable = request;
   return request;

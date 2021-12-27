@@ -179,7 +179,7 @@ export const restfulErrorInterceptors: ResponseInterceptor = async (
   };
   throw new ErrorInfo('HttpError', httpErrorInfo);
 };
-export const errorInterceptors: ResponseInterceptor = async (
+export const oldErrorInterceptors: ResponseInterceptor = async (
   response,
   options,
 ) => {
@@ -225,6 +225,13 @@ export const errorInterceptors: ResponseInterceptor = async (
   throw new ErrorInfo('HttpError', httpErrorInfo);
 };
 
+export const errorInterceptors: ResponseInterceptor = (response, options) => {
+  if (requestConfig.mode === 'restful') {
+    return restfulErrorInterceptors(response, options);
+  }
+  return oldErrorInterceptors(response, options);
+};
+
 const formattedAjaxData = (resp: any) => {
   if (
     typeof resp === 'object' &&
@@ -253,7 +260,7 @@ const formattedAjaxData = (resp: any) => {
   }
 };
 
-export const responseDataFormatter: OnionMiddleware = async (
+export const oldResponseDataFormatter: OnionMiddleware = async (
   ctx: Context,
   next: () => void,
 ) => {
@@ -278,4 +285,14 @@ export const restfulResponseDataFormatter: OnionMiddleware = async (
   const { res } = ctx;
   if (res instanceof Error) return;
   ctx.res = formattedAjaxData(res);
+};
+
+export const responseDataFormatter: OnionMiddleware = (
+  ctx: Context,
+  next: () => void,
+) => {
+  if (requestConfig.mode === 'restful') {
+    return restfulResponseDataFormatter(ctx, next);
+  }
+  return oldResponseDataFormatter(ctx, next);
 };
