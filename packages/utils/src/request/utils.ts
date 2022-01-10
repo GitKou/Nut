@@ -71,7 +71,7 @@ export const authHeaderInterceptor: RequestInterceptor = (
       ...rest,
       headers: {
         ...headers,
-        [requestConfig.tokenName]: token,
+        ...(token ? { [requestConfig.tokenName]: token } : {}),
       },
     },
   };

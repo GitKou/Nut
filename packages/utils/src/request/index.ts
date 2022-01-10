@@ -33,19 +33,6 @@ function newARequest() {
   request.interceptors.request.use(pageParamsTransformer, { global: false });
   request.interceptors.response.use(errorInterceptors, { global: false });
   request.use(responseDataFormatter, { global: false });
-  // request.interceptors.response.use(
-  //   requestConfig.mode === 'restful'
-  //     ? restfulErrorInterceptors
-  //     : errorInterceptors,
-  //   { global: false },
-  // );
-  // request.use(
-  //   requestConfig.mode === 'restful'
-  //     ? restfulResponseDataFormatter
-  //     : responseDataFormatter,
-  //   { global: false },
-  // );
-  // request.use(responseDataFormatter, { global: false });
   requestTable = request;
   return request;
 }
