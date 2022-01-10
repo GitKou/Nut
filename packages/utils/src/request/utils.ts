@@ -81,14 +81,8 @@ export const pageTransformMap = {
   currentLabel: 'pageNo',
   pageSizeLabel: 'pageSize',
 };
-// 处理page参数
-export const pageParamsTransformer: RequestInterceptor = (
-  url: string,
-  options: RequestOptionsInit,
-) => {
-  const params = options.params as
-    | ParamsWithPagination<Record<any, any>>
-    | undefined;
+
+const replacePageParams = (params) => {
   if (params?.current !== undefined) {
     const { current } = params;
     delete params.current;
@@ -99,6 +93,21 @@ export const pageParamsTransformer: RequestInterceptor = (
     delete params.pageSize;
     params[pageTransformMap.pageSizeLabel] = pageSize;
   }
+};
+// 处理page参数
+export const pageParamsTransformer: RequestInterceptor = (
+  url: string,
+  options: RequestOptionsInit,
+) => {
+  const params = options.params as
+    | ParamsWithPagination<Record<any, any>>
+    | undefined;
+  const data = options.data as
+    | ParamsWithPagination<Record<any, any>>
+    | undefined;
+
+  replacePageParams(params);
+  replacePageParams(data);
   return {
     url,
     options,
