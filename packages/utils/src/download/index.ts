@@ -12,20 +12,27 @@ export const download = (
   params: Record<string, any> = {},
   method: 'GET' | 'POST' = 'GET',
 ) => {
-  const token = store.get(requestConfig.tokenName);
-
   const form = document.createElement('form');
   form.action = action;
   form.method = method;
   form.target = '_blank';
+
+  const appendParams = (name: string, value: string) => {
+    const input = document.createElement('input');
+    input.type = 'hidden';
+    input.name = name;
+    input.value = value;
+    form.appendChild(input);
+  };
+  // 处理attachment
+  appendParams('response-content-disposition', 'attachment');
+
+  // 处理token
+  const token = store.get(requestConfig.tokenName);
   if (token) {
-    // 处理token
-    const tokenInput = document.createElement('input');
-    tokenInput.type = 'hidden';
-    tokenInput.name = requestConfig.tokenName;
-    tokenInput.value = token;
-    form.appendChild(tokenInput);
+    appendParams('access-token', token);
   }
+
   // 处理其他参数
   Object.keys(params).forEach((key) => {
     const input = document.createElement('input');
