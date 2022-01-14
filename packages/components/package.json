@@ -1,6 +1,6 @@
 {
   "name": "@lc-nut/components",
-  "version": "1.0.32",
+  "version": "1.0.33",
   "description": "common components",
   "main": "./lib/index.js",
   "module": "./es/index.js",
