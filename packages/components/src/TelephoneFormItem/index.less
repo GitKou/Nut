@@ -1,0 +1,16 @@
+.formItem {
+  .selfError {
+    background-color: pink;
+  }
+  .noSelfError {
+    :global {
+      :not(.ant-input-disabled):not(.ant-input-borderless).ant-input {
+        border-color: rgba(22, 22, 64, 0.16);
+      }
+      :not(.ant-input-disabled):not(.ant-input-borderless).ant-input:focus {
+        border-color: #5c85ff;
+        box-shadow: 0 0 0 2px rgba(51, 95, 255, 0.2);
+      }
+    }
+  }
+}
