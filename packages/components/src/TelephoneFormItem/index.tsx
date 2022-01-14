@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import type { FormItemProps } from 'antd';
 import { Input, Form, Col, Row } from 'antd';
 import cls from 'classnames';
-import styles from './index.less';
+import './index.less';
 
 const getAreaCodeFromStr = (str?: string): string | undefined =>
   (str || '').split('-')[0];
@@ -54,7 +54,7 @@ export function TelephoneInput({
       <Col span={8}>
         <Form.Item
           // name="areaCode"
-          className={!areaCodeHelp ? styles.noSelfError : undefined}
+          className={!areaCodeHelp ? 'no-self-error' : undefined}
           validateStatus={areaCodeHelp ? 'error' : undefined}
           help={areaCodeHelp}
         >
@@ -73,7 +73,7 @@ export function TelephoneInput({
       <Col span={15}>
         <Form.Item
           // name="phoneNo"
-          className={!phoneNoHelp ? styles.noSelfError : undefined}
+          className={!phoneNoHelp ? 'no-self-error' : undefined}
           validateStatus={phoneNoHelp ? 'error' : undefined}
           help={phoneNoHelp}
         >
@@ -93,7 +93,7 @@ function TelephoneFormItem(props: FormItemProps) {
   const [areaCodeHelp, setAreaCodeHelp] = useState('');
   const [phoneNoHelp, setPhoneNoHelp] = useState('');
 
-  const formItemCls = cls(styles.formItem, className);
+  const formItemCls = cls('telephone-form-item', className);
 
   return (
     <Form.Item

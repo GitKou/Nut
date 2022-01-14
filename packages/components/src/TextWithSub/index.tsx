@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from './index.less';
+import './index.less';
 
 function TextWithSub({
   txt,
@@ -11,10 +11,10 @@ function TextWithSub({
   sub: string;
 }) {
   return (
-    <>
-      <div className={styles.txt}>{txt}</div>
-      <div className={styles.sub}>{sub}</div>
-    </>
+    <span className="text-with-sub">
+      <div className={'txt'}>{txt}</div>
+      <div className={'sub'}>{sub}</div>
+    </span>
   );
 }
 
