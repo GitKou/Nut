@@ -1,11 +1,14 @@
 {
   "name": "@lc-nut/components",
-  "version": "1.0.33",
+  "version": "1.0.34",
   "description": "common components",
   "main": "./lib/index.js",
   "module": "./es/index.js",
   "types": "./lib/index.d.ts",
-  "sideEffects": ["./src/**/*/*.less", "./src/**/*/*.css"],
+  "sideEffects": [
+    "./src/**/*/*.less",
+    "./src/**/*/*.css"
+  ],
   "files": [
     "dist",
     "lib",
