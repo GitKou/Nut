@@ -51,7 +51,7 @@ export const beforeUpload =
       // 校验文件类型
       const fileTypeList = Array.isArray(fileType) ? fileType : [fileType];
       if (!fileTypeList?.includes(file.type)) {
-        message.error(`仅支持文件格式${fileTypeList.join('\\')}`);
+        message.error(`仅支持文件格式${fileTypeList.join('、')}`);
         return Upload.LIST_IGNORE;
       }
     }
