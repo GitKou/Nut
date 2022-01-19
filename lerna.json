@@ -1,7 +1,7 @@
 {
   "packages": ["packages/*"],
   "npmClient": "yarn",
-  "version": "1.0.35",
+  "version": "1.0.36",
   "command": {
     "publish": {
       "message": "chore(release): %s"
