@@ -6,8 +6,8 @@
   "module": "./es/index.js",
   "types": "./lib/index.d.ts",
   "sideEffects": [
-    "./src/**/*/*.less",
-    "./src/**/*/*.css"
+    "./es/**/*/*.less",
+    "./lib/**/*/*.css"
   ],
   "files": [
     "dist",
