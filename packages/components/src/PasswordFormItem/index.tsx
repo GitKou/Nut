@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Form, Popover, Input } from 'antd';
 import type { FormItemProps, PopoverProps } from 'antd';
 import type { PasswordProps } from 'antd/es/input/password';
@@ -30,7 +30,12 @@ export const defaultRules = [
 export type PasswordFormItemProps = FormItemProps<string> & {
   /** 自定义popover中的校验规则，默认值是defaultRules */
   rulesForCheckList?: typeof defaultRules;
+  /** Input.password的props */
   inputProps?: PasswordProps;
+  /** 气泡卡片的props，默认：
+    trigger="focus"
+    placement="right"
+   */
   popoverProps?: PopoverProps;
 };
 
@@ -65,7 +70,13 @@ function PasswordFormItem(props: PasswordFormItemProps) {
     ...restProps
   } = props;
 
+  const { onChange, ...restInputProps } = inputProps;
   const inputRef = useRef<Input>();
+  const [inputValue, setInputValue] = useState<string>();
+  const handleChange: PasswordProps['onChange'] = (e) => {
+    onChange?.(e);
+    setInputValue(e.target.value);
+  };
 
   const ValidateMessages = () => {
     const [messageList, setMessageList] = useState<
@@ -94,11 +105,12 @@ function PasswordFormItem(props: PasswordFormItemProps) {
       );
     };
 
-    const promises = rulesForCheckList.map((r) =>
-      validateCheckList(r, inputRef.current?.state?.value || ''),
-    );
-
     useEffect(() => {
+      const promises = rulesForCheckList.map(
+        (r) =>
+          validateCheckList(r, inputValue || inputRef?.current?.state?.value), // defaultValue
+      );
+
       Promise.allSettled(promises).then((res) => {
         setMessageList(
           res.map((o, idx) => ({
@@ -107,7 +119,7 @@ function PasswordFormItem(props: PasswordFormItemProps) {
           })),
         );
       });
-    }, [promises]);
+    }, []);
 
     return (
       <div>
@@ -123,8 +135,6 @@ function PasswordFormItem(props: PasswordFormItemProps) {
       </div>
     );
   };
-
-  console.log(inputRef.current, inputRef.current?.state?.value);
 
   return (
     <Popover
@@ -157,7 +167,12 @@ function PasswordFormItem(props: PasswordFormItemProps) {
         ]}
         {...restProps}
       >
-        <Input.Password ref={inputRef} autoComplete="off" {...inputProps} />
+        <Input.Password
+          ref={inputRef}
+          autoComplete="off"
+          onChange={handleChange}
+          {...restInputProps}
+        />
       </Form.Item>
     </Popover>
   );

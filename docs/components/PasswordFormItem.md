@@ -22,11 +22,17 @@ export default () => {
   return (
     <Form
       labelCol={{ span: 4 }}
-      wrapperCol={{ span: 16 }}
+      wrapperCol={{ span: 8 }}
       initialValues={{ password: 'abc' }}
     >
-      <PasswordFormItem name={'password'} label="初始密码" />
-      <Form.Item wrapperCol={{ offset: 4, span: 16 }}>
+      <PasswordFormItem
+        name={'password'}
+        label="初始密码"
+        popoverProps={{
+          placement: 'top',
+        }}
+      />
+      <Form.Item wrapperCol={{ offset: 4, span: 8 }}>
         <Button type="primary" htmlType="submit">
           Submit
         </Button>
@@ -48,7 +54,7 @@ export default () => {
   return (
     <Form
       labelCol={{ span: 4 }}
-      wrapperCol={{ span: 16 }}
+      wrapperCol={{ span: 8 }}
       initialValues={{ password: 'abc123' }}
     >
       <PasswordFormItem
@@ -73,7 +79,7 @@ export default () => {
           placement: 'top',
         }}
       />
-      <Form.Item wrapperCol={{ offset: 4, span: 16 }}>
+      <Form.Item wrapperCol={{ offset: 4, span: 8 }}>
         <Button type="primary" htmlType="submit">
           Submit
         </Button>
