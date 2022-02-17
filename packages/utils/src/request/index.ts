@@ -1,256 +1,48 @@
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 /** Request 网络请求工具 更详细的 api 文档: https://github.com/umijs/umi-request */
-import { notification } from 'antd';
 import { extend } from 'umi-request';
 
-import store from 'store';
-import type {
-  RequestInterceptor,
-  RequestOptionsInit,
-  ResponseError,
-  ResponseInterceptor,
-  Context,
-  OnionMiddleware,
-  RequestMethod,
-  RequestOptionsWithoutResponse,
-  RequestOptionsWithResponse,
-  RequestResponse,
-  ExtendOptionsInit,
-} from 'umi-request';
-import type {
-  AjaxData,
-  FormattedAjaxData,
-  FormattedAjaxDataWithPage,
-  ParamsWithPagination,
-  TableListData,
-} from '@lc-nut/interfaces';
-import type { ErrorInfoStructure } from './error-type';
-import { HttpError, SystemError } from './error-type';
+import type { ExtendOptionsInit } from 'umi-request';
+import type { RequestConfigParams } from './config';
+import { requestConfig } from './config';
+import type { FormattedRequestMethod } from './interfaces';
+import {
+  authHeaderInterceptor,
+  errorHandler,
+  errorInterceptors,
+  pageParamsTransformer,
+  responseDataFormatter,
+  // restfulErrorInterceptors,
+  // restfulResponseDataFormatter,
+} from './utils';
 
-/** 异常处理程序 */
-export const errorHandler = (error: ResponseError) => {
-  // 网络异常
-  if (error.message === 'Failed to fetch') {
-    notification.error({
-      message: '网络异常',
-      description: `${error.message}:${error?.request?.url}`,
-    });
-    // 阻断执行，并将错误信息传递下去
-    return Promise.reject(error);
-  }
-
-  // HTTP 错误
-  if (error.name === 'HttpError') {
-    notification.error({
-      message: 'HTTP 错误',
-      description: error.message,
-    });
-    return Promise.reject(error);
-  }
-
-  // 系统错误
-  if (error.name === 'SystemError') {
-    notification.error({
-      message: '系统错误',
-      description: error.message,
-    });
-    return Promise.reject(error);
-  }
-
-  // 前置错误
-  if (error.name === 'PremiseError') {
-    notification.error({
-      message: '前置错误',
-      description: error.message,
-    });
-    return Promise.reject(error);
-  }
-
-  notification.error({
-    message: '其他错误',
-    description: error.message,
-  });
-  return Promise.reject(error);
-};
-
-/** 请求加token */
-export const authHeaderInterceptor: RequestInterceptor = (
-  url: string,
-  options: RequestOptionsInit,
-) => {
-  const token = store.get('token') || '';
-  const { headers, ...rest } = options;
-
-  return {
-    url,
-    options: {
-      ...rest,
-      headers: {
-        ...headers,
-        'access-token': token,
-      },
-    },
-  };
-};
-
-export const pageTransformMap = {
-  currentLabel: 'pageNo',
-  pageSizeLabel: 'pageSize',
-};
-// 处理page参数
-export const pageParamsTransformer: RequestInterceptor = (
-  url: string,
-  options: RequestOptionsInit,
-) => {
-  const params = options.params as
-    | ParamsWithPagination<Record<any, any>>
-    | undefined;
-  if (params?.current !== undefined) {
-    const { current } = params;
-    delete params.current;
-    params[pageTransformMap.currentLabel] = current;
-  }
-  if (params?.pageSize !== undefined) {
-    const { pageSize } = params;
-    delete params.pageSize;
-    params[pageTransformMap.pageSizeLabel] = pageSize;
-  }
-
-  return {
-    url,
-    options,
-  };
-};
-
-export const errorInterceptors: ResponseInterceptor = async (
-  response,
-  options,
-) => {
-  if (response.status === 200) {
-    // 网络成功
-    if (options.responseType === 'json') {
-      return response
-        .clone()
-        .json()
-        .then((responseJson: AjaxData<any>) => {
-          const code = responseJson?.code;
-          if (code === '200') {
-            return response;
-          }
-          if (code === 'A0200') {
-            store.remove('token');
-            setTimeout(() => {
-              window.location.replace(
-                `/login?redirect=${window.location.href}`,
-              );
-            }, 200);
-          }
-          const systemErrorInfo: ErrorInfoStructure = {
-            success: false,
-            data: responseJson?.data,
-            message: responseJson?.message,
-            code: responseJson?.code,
-          };
-
-          // throw new SystemError(`${code} ${responseJson.message} ${response.url}`, systemErrorInfo);
-          throw new SystemError(
-            `${code} ${responseJson.message}`,
-            systemErrorInfo,
-          );
-        });
-    }
-    return response;
-  }
-  // 网络失败
-  const httpErrorInfo: ErrorInfoStructure = {
-    success: false,
-  };
-  // throw new HttpError(`${response.status} ${response.statusText} ${response.url}`, httpErrorInfo);
-  throw new HttpError(
-    `${response.status} ${response.statusText}`,
-    httpErrorInfo,
-  );
-};
-
-export const responseDataFormatter: OnionMiddleware = async (
-  ctx: Context,
-  next: () => void,
-) => {
-  await next();
-  const { res } = ctx;
-  if (res instanceof Error) return;
-  const oRes = res as AjaxData<any>;
-  const { code, message, data } = oRes;
-  // 如果返回responseType的是json
-  if (code !== undefined) {
-    if (
-      typeof data === 'object' &&
-      data !== null &&
-      'totalCount' in data &&
-      'currentPage' in data
-    ) {
-      // 如果是带分页的json
-      const { totalCount, currentPage } = data as TableListData<any>;
-      ctx.res = {
-        success: true,
-        data: data?.list,
-        total: totalCount,
-        current: currentPage,
-        message,
-        code,
-      };
-    } else {
-      // 如果是不带分页的json
-      ctx.res = {
-        success: true,
-        data,
-        message,
-        code,
-      };
-    }
-  }
-  // responseType非json不做处理
-};
-
-export interface FormattedRequestMethod<WithPage extends boolean = false>
-  extends RequestMethod<false> {
-  <T = any>(url: string, options?: RequestOptionsInit): Promise<
-    WithPage extends false ? FormattedAjaxData<T> : FormattedAjaxDataWithPage<T>
-  >;
-  <T = any>(url: string, options: RequestOptionsWithResponse): Promise<
-    RequestResponse<
-      WithPage extends false
-        ? FormattedAjaxData<T>
-        : FormattedAjaxDataWithPage<T>
-    >
-  >;
-  <T = any>(url: string, options: RequestOptionsWithoutResponse): Promise<
-    WithPage extends false ? FormattedAjaxData<T> : FormattedAjaxDataWithPage<T>
-  >;
-  get: FormattedRequestMethod<WithPage>;
-  post: FormattedRequestMethod<WithPage>;
-  delete: FormattedRequestMethod<WithPage>;
-  put: FormattedRequestMethod<WithPage>;
-  patch: FormattedRequestMethod<WithPage>;
-  head: FormattedRequestMethod<WithPage>;
-  options: FormattedRequestMethod<WithPage>;
-  rpc: FormattedRequestMethod<WithPage>;
-}
-
+/** 配置request请求时的默认参数 */
 export const options: ExtendOptionsInit = {
   responseType: 'json',
   errorHandler, // 默认错误处理
   credentials: 'include', // 默认请求是否带上cookie
 };
 
-/** 配置request请求时的默认参数 */
-const request = extend(options) as FormattedRequestMethod;
+let request = newARequest() as FormattedRequestMethod;
 
-request.interceptors.request.use(authHeaderInterceptor);
-request.interceptors.request.use(pageParamsTransformer);
-request.interceptors.response.use(errorInterceptors);
-request.use(responseDataFormatter);
+let requestTable = request as FormattedRequestMethod<true>;
 
-const requestTable = request as FormattedRequestMethod<true>;
+function newARequest() {
+  request = extend(options) as FormattedRequestMethod;
+  request.interceptors.request.use(authHeaderInterceptor, { global: false });
+  request.interceptors.request.use(pageParamsTransformer, { global: false });
+  request.interceptors.response.use(errorInterceptors, { global: false });
+  request.use(responseDataFormatter, { global: false });
+  requestTable = request;
+  return request;
+}
 
-export { request, requestTable };
+/** 设置配置项config */
+function setRequestConfig(configParams: Partial<RequestConfigParams>) {
+  // 更新配置
+  requestConfig.update(configParams);
+  // 新生成request
+  newARequest();
+}
+
+export { request, requestTable, setRequestConfig, requestConfig };

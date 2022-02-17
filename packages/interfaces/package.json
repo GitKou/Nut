@@ -1,13 +1,11 @@
 {
   "name": "@lc-nut/interfaces",
-  "version": "1.0.18",
+  "version": "1.0.25",
   "main": "./src/index.ts",
   "module": "./src/index.ts",
   "sideEffects": false,
   "files": [
-    "dist",
-    "lib",
-    "es",
+    "src",
     "package.json",
     "README.md"
   ],

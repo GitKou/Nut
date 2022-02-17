@@ -1,4 +1,4 @@
-import { useQuery } from './useQuery';
+import useQuery from './useQuery';
 
 export default function useNumberQuery(dataIndex: string) {
   const p = useQuery();
