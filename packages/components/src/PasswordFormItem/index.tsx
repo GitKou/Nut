@@ -8,7 +8,7 @@ import { CheckCircleFilled } from '@ant-design/icons';
 export const defaultRules = [
   { pattern: /^.{6,20}$/, message: '长度为6~20个字符' },
   {
-    validator: (value: string) => {
+    validator: (_, value: string) => {
       const letterRegex = /[a-z]/gi; // 字母
       const digitRegex = /\d/g; // 数字
       const specialCharRegex = /([^\w\s]|_)/g; // 标点符号
@@ -46,14 +46,14 @@ const validateCheckList = (
   if ('pattern' in rule && rule.pattern instanceof RegExp) {
     const matched = rule.pattern.test(value || '');
     if (!matched) {
-      return Promise.reject(rule.message);
+      return Promise.reject();
     }
-    return Promise.resolve(rule.message);
+    return Promise.resolve();
   }
   if ('validator' in rule && typeof rule.validator === 'function') {
-    return rule.validator(value || '');
+    return rule.validator(null, value || '');
   }
-  return Promise.resolve(rule.message);
+  return Promise.resolve();
 };
 
 /**
@@ -157,10 +157,11 @@ function PasswordFormItem(props: PasswordFormItemProps) {
                   return Promise.resolve();
                 },
                 () => {
-                  return Promise.reject('不符合密码规范');
+                  return Promise.reject();
                 },
               );
             },
+            message: '不符合密码规范',
             validateTrigger: 'onBlur',
           },
           ...rules,

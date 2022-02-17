@@ -63,7 +63,7 @@ export default () => {
         rulesForCheckList={[
           ...defaultRules,
           {
-            validator: (value) => {
+            validator: (_, value) => {
               if (value.includes('gmm')) return Promise.resolve();
               return Promise.reject();
             },
