@@ -27,6 +27,9 @@ export const defaultRules = [
   { pattern: /^[^\u4e00-\u9fa5\s ]+$/, message: '不允许有空格、中文' },
 ];
 
+export const succeededStyle = { color: 'rgb(59, 179, 54)' };
+export const failedStyle = { color: 'rgba(22, 22, 64, 0.2)' };
+
 export type PasswordFormItemProps = FormItemProps<string> & {
   /** 自定义popover中的校验规则，默认值是defaultRules */
   rulesForCheckList?: typeof defaultRules;
@@ -39,7 +42,7 @@ export type PasswordFormItemProps = FormItemProps<string> & {
   popoverProps?: PopoverProps;
 };
 
-const validateCheckList = (
+export const validateCheckList = (
   rule: typeof defaultRules[number],
   value: string,
 ) => {
@@ -60,6 +63,7 @@ const validateCheckList = (
  *
  * 带气泡卡片提示校验信息的密码框，
  * 支持自定义校验规则
+  });
  */
 function PasswordFormItem(props: PasswordFormItemProps) {
   const {
@@ -90,11 +94,10 @@ function PasswordFormItem(props: PasswordFormItemProps) {
       matched: boolean;
       msg: string;
     }) => {
-      const succeededStyle = { color: 'rgba(59, 179, 54, 1)' };
-      const failedStyle = { color: 'rgba(22, 22, 64, 0.2)' };
       return (
         <div style={{ display: 'flex', alignItems: 'center' }}>
           <CheckCircleFilled
+            className="check-circle"
             style={{
               marginRight: 6,
               ...(matched ? succeededStyle : failedStyle),

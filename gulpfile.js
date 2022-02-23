@@ -20,7 +20,7 @@ gulp.task('cjs', function () {
       .pipe(tsProject())
       .pipe(
         babel({
-          configFile: '../../.babelrc',
+          configFile: '../../babel.config.js',
         }),
       )
       .pipe(gulp.dest('lib/'))
@@ -36,7 +36,7 @@ gulp.task('es', function () {
     .pipe(tsProject())
     .pipe(
       babel({
-        configFile: '../../.babelrc',
+        configFile: '../../babel.config.js',
       }),
     )
     .pipe(gulp.dest('es/'));

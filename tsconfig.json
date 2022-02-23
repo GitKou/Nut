@@ -20,9 +20,7 @@
     "node_modules",
     "lib",
     "es",
-    "dist",
-    "**/__tests__",
-    "**/__test__"
+    "dist"
     // "**/demo"
   ]
 }
