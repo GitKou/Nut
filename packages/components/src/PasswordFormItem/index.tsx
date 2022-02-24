@@ -109,19 +109,25 @@ function PasswordFormItem(props: PasswordFormItemProps) {
     };
 
     useEffect(() => {
+      let componentMounted = true;
       const promises = rulesForCheckList.map(
         (r) =>
           validateCheckList(r, inputValue || inputRef?.current?.state?.value), // defaultValue
       );
 
       Promise.allSettled(promises).then((res) => {
-        setMessageList(
-          res.map((o, idx) => ({
-            matched: o.status === 'fulfilled',
-            message: rulesForCheckList[idx].message,
-          })),
-        );
+        if (componentMounted) {
+          setMessageList(
+            res.map((o, idx) => ({
+              matched: o.status === 'fulfilled',
+              message: rulesForCheckList[idx].message,
+            })),
+          );
+        }
       });
+      return () => {
+        componentMounted = false; // In case of memory leak
+      };
     }, []);
 
     return (
