@@ -19,7 +19,7 @@
     "pub:doc-github": "yarn run build && cd ./dist && rm -rf .git && touch .spa && touch .nojekyll && git init && git remote add origin git@github.com:GitKou/GitKou.github.io.git && git add -A && git commit -m \"publish docs\" && git push origin master -f",
     "test": "jest",
     "test:watch": "jest --watch",
-    "test:update": "jest --config .jest.js --cache=false -u",
+    "test:update": "jest --cache=false -u",
     "prettier": "prettier -c --write \"src/**/*\"",
     "lint": "umi g tmp && npm run lint:js && npm run lint:style && npm run lint:prettier && npm run tsc",
     "lint-staged": "lint-staged",
