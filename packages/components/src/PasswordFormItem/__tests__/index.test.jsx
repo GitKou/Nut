@@ -2,6 +2,7 @@ import { waitFor, render, fireEvent, act } from '@testing-library/react';
 import { screen } from '@testing-library/dom';
 import userEvent from '@testing-library/user-event';
 import { Form, Input } from 'antd';
+import renderer from 'react-test-renderer';
 
 import PasswordFormItem, {
   defaultRules,
@@ -11,6 +12,24 @@ import PasswordFormItem, {
 } from '../index';
 
 describe('PasswordFormItem', () => {
+  it('renders correctly when there is a single PasswordFormItem', () => {
+    const ele = renderer.create(<PasswordFormItem />).toJSON();
+    expect(ele).toMatchSnapshot();
+  });
+
+  it('renders correctly when there are multiple items in a Form', () => {
+    const ele = renderer
+      .create(
+        <Form>
+          <PasswordFormItem label="password" name="password" />
+          <PasswordFormItem label="password2" name="newPassword" />
+          <PasswordFormItem />
+        </Form>,
+      )
+      .toJSON();
+    expect(ele).toMatchSnapshot();
+  });
+
   it('popover content validated the defaultValue when first focus on input', async () => {
     render(
       <PasswordFormItem
