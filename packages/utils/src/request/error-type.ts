@@ -1,4 +1,4 @@
-import { ResponseError } from 'umi-request';
+import type { ResponseError } from 'umi-request';
 
 export interface ErrorInfoStructure {
   success: boolean; // if request is success

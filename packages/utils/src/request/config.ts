@@ -1,6 +1,6 @@
 import { message } from 'antd';
 import store from 'store';
-import { ErrorHandlerError } from './error-type';
+import type { ErrorHandlerError } from './error-type';
 
 export type RequestConfigParams = {
   /** 接口模式，默认值old
