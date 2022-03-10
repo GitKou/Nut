@@ -1,4 +1,6 @@
 .telephone-form-item {
+  margin-bottom: 0;
+
   .no-self-error {
     :not(.ant-input-disabled):not(.ant-input-borderless).ant-input {
       border-color: rgba(22, 22, 64, 0.16);
@@ -7,5 +9,9 @@
       border-color: #5c85ff;
       box-shadow: 0 0 0 2px rgba(51, 95, 255, 0.2);
     }
+  }
+  & > .ant-form-item-control > .ant-form-item-explain {
+    display: none;
+    visibility: hidden;
   }
 }

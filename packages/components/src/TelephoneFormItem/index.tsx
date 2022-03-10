@@ -90,8 +90,8 @@ export function TelephoneInput({
 
 function TelephoneFormItem(props: FormItemProps) {
   const { className, ...restProps } = props;
-  const [areaCodeHelp, setAreaCodeHelp] = useState('');
-  const [phoneNoHelp, setPhoneNoHelp] = useState('');
+  const [areaCodeHelp, setAreaCodeHelp] = useState<string>();
+  const [phoneNoHelp, setPhoneNoHelp] = useState<string>();
 
   const formItemCls = cls('telephone-form-item', className);
 
@@ -107,6 +107,8 @@ function TelephoneFormItem(props: FormItemProps) {
         {
           validator: (rules, value) => {
             if (!props.required && !value) {
+              setAreaCodeHelp(undefined);
+              setPhoneNoHelp(undefined);
               return Promise.resolve();
             }
 
