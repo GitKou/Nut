@@ -34,7 +34,7 @@ export type PasswordFormItemProps = FormItemProps<string> & {
   /** 自定义popover中的校验规则，默认值是defaultRules */
   rulesForCheckList?: typeof defaultRules;
   /** Input.password的props */
-  inputProps?: PasswordProps;
+  inputProps?: PasswordProps & Record<`data-${string}`, string>;
   /** 气泡卡片的props，默认：
     trigger="focus"
     placement="right"

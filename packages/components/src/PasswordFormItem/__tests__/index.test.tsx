@@ -1,7 +1,7 @@
-import { waitFor, render, fireEvent, act } from '@testing-library/react';
+import { waitFor, render } from '@testing-library/react';
 import { screen } from '@testing-library/dom';
 import userEvent from '@testing-library/user-event';
-import { Form, Input } from 'antd';
+import { Form } from 'antd';
 import renderer from 'react-test-renderer';
 import '@testing-library/jest-dom';
 import PasswordFormItem, {
@@ -14,14 +14,13 @@ import PasswordFormItem, {
 const rulesExpectToBeTruthy = async (rulesIdxs) => {
   for (const [idx, rule] of defaultRules.entries()) {
     const circle = await waitFor(
-      () => screen.getByText(rule.message).firstChild,
+      () => screen.getByText(rule.message).firstChild as HTMLElement | null,
     );
     if (rulesIdxs.includes(idx)) {
-      expect(rule.status === 'fulfilled');
-      expect(circle.style.color).toBe(succeededStyle.color);
+      // 当前输入满足条件idx
+      expect(circle?.style?.color).toBe(succeededStyle.color);
     } else {
-      expect(rule.status === 'rejected');
-      expect(circle.style.color).toBe(failedStyle.color);
+      expect(circle?.style?.color).toBe(failedStyle.color);
     }
   }
 };
@@ -55,7 +54,7 @@ describe('PasswordFormItem', () => {
         }}
       />,
     );
-    let input = screen.getByTestId('nut-password-form-item');
+    const input = screen.getByTestId('nut-password-form-item');
 
     input.focus();
 
@@ -91,7 +90,7 @@ describe('PasswordFormItem', () => {
         />
       </Form>,
     );
-    let input = screen.getByTestId('testId');
+    const input = screen.getByTestId('testId');
 
     input.focus();
     userEvent.type(input, 'qwe');

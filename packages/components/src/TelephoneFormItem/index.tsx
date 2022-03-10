@@ -106,6 +106,8 @@ function TelephoneFormItem(props: FormItemProps) {
       rules={[
         {
           validator: (rules, value) => {
+            if (!props.required) return Promise.resolve();
+
             const areaCode = getAreaCodeFromStr(value) || '';
             const phoneNo = getPhoneNoFromStr(value) || '';
 
