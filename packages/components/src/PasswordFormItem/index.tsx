@@ -56,6 +56,12 @@ export const validateCheckList = (
   if ('validator' in rule && typeof rule.validator === 'function') {
     return rule.validator(null, value || '');
   }
+
+  console.warn(
+    'Warning: '.concat(
+      'Invalid pattern or validator. A pattern must be an instance of RegExp. A validator must be a function',
+    ),
+  );
   return Promise.resolve();
 };
 

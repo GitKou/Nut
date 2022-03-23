@@ -11,10 +11,12 @@ import PasswordFormItem, {
 } from '../index';
 
 // rulesIdxs 期待满足的规则下标
-const rulesExpectToBeTruthy = async (rulesIdxs) => {
-  for (const [idx, rule] of defaultRules.entries()) {
+const rulesExpectToBeTruthy = async (rulesIdxs, rules = defaultRules) => {
+  for (const [idx, rule] of rules.entries()) {
     const circle = await waitFor(
-      () => screen.getByText(rule.message).firstChild as HTMLElement | null,
+      () =>
+        screen.getByText(new RegExp(rule.message))
+          ?.firstChild as HTMLElement | null,
     );
     if (rulesIdxs.includes(idx)) {
       // 当前输入满足条件idx
@@ -109,5 +111,72 @@ describe('PasswordFormItem', () => {
     await waitFor(() =>
       expect(screen.queryByText(/不符合密码规范/i)).not.toBeInTheDocument(),
     );
+  });
+
+  it('works correctly with custom rules', async () => {
+    const customRules = [
+      ...defaultRules,
+      {
+        validator: (_, value) => {
+          if (value.includes('gmm')) return Promise.resolve();
+          return Promise.reject();
+        },
+        message: `包含'gmm'校验通过`,
+      },
+    ];
+
+    render(
+      <Form initialValues={{ password: 'abc123' }}>
+        <PasswordFormItem
+          name={'password'}
+          label="密码"
+          rulesForCheckList={customRules}
+          inputProps={{
+            'data-testid': 'testId',
+          }}
+        />
+      </Form>,
+    );
+    const input = screen.getByTestId('testId');
+    input.focus();
+    await rulesExpectToBeTruthy([0, 1, 2], customRules);
+    input.blur();
+    await waitFor(() =>
+      expect(screen.queryByText(/不符合密码规范/i)).toBeInTheDocument(),
+    );
+  });
+
+  it('warns when pass an invalid rule & shows no error message', async () => {
+    const mockedWarn = jest.spyOn(console, 'warn');
+    mockedWarn.mockImplementation(() => undefined);
+    const customRules = [
+      { validator: '', message: 'test wrong validator' } as any,
+    ];
+
+    render(
+      <Form initialValues={{ password: 'abc123' }}>
+        <PasswordFormItem
+          name={'password'}
+          label="密码"
+          rulesForCheckList={customRules}
+          inputProps={{
+            'data-testid': 'testId',
+          }}
+        />
+      </Form>,
+    );
+
+    const input = screen.getByTestId('testId');
+    input.focus();
+
+    await rulesExpectToBeTruthy([0], customRules);
+    input.blur();
+    await waitFor(() =>
+      expect(screen.queryByText(/不符合密码规范/i)).not.toBeInTheDocument(),
+    );
+
+    expect(mockedWarn).toBeCalled();
+
+    mockedWarn.mockRestore();
   });
 });

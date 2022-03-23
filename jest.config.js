@@ -16,4 +16,7 @@ module.exports = {
     'packages/!components/src/**/*/interface.{ts,tsx}',
     'packages/!components/src/*/__tests__/image.test.{ts,tsx}',
   ],
+  moduleNameMapper: {
+    '\\.(css|less)$': 'identity-obj-proxy', //Jest less encountered an unexpected token
+  },
 };

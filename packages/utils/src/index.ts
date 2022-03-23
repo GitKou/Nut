@@ -4,3 +4,4 @@ export * from './number';
 export * from './request';
 export * from './upload';
 export * from './download';
+export * from './enum';

@@ -2,13 +2,36 @@ import React, { useState } from 'react';
 import type { FormItemProps } from 'antd';
 import { Input, Form, Col, Row } from 'antd';
 import cls from 'classnames';
+import type { InputProps } from 'antd/es/input/Input';
+
 import './index.less';
+
+export type TelephoneInputProps = InputProps & {
+  value?: string;
+  defaultValue?: string;
+  onChange?: (e?: string) => void;
+  areaCodeHelp?: string;
+  phoneNoHelp?: string;
+};
+
+export type TelephoneFormItemProps = FormItemProps<string> & {
+  /** Input的props */
+  inputProps?: TelephoneInputProps;
+};
 
 const getAreaCodeFromStr = (str?: string): string | undefined =>
   (str || '').split('-')[0];
 const getPhoneNoFromStr = (str?: string): string | undefined =>
   (str || '').split('-')[1];
 
+export enum TelephoneRules {
+  请输入区号 = '请输入区号',
+  区号不超过4位 = '区号不超过4位',
+  区号应为数字 = '区号应为数字',
+  请输入固定电话 = '请输入固定电话',
+  固定电话应不超过8位 = '固定电话应不超过8位',
+  固定电话应为数字 = '固定电话应为数字',
+}
 /**
  * 组合区号和固定电话号码，
  * 校验样式手动控制
@@ -18,14 +41,15 @@ export function TelephoneInput({
   onChange,
   areaCodeHelp,
   phoneNoHelp,
-}: {
-  value?: string;
-  onChange?: (e?: string) => void;
-  areaCodeHelp?: string;
-  phoneNoHelp?: string;
-}) {
-  const [areaCode, setAreaCode] = useState(getAreaCodeFromStr(value));
-  const [phoneNo, setPhoneNo] = useState(getPhoneNoFromStr(value));
+  defaultValue,
+  ...restInputProps
+}: TelephoneInputProps) {
+  const [areaCode, setAreaCode] = useState(
+    getAreaCodeFromStr(value || defaultValue),
+  );
+  const [phoneNo, setPhoneNo] = useState(
+    getPhoneNoFromStr(value || defaultValue),
+  );
 
   const triggerChange = (changedValue: {
     areaCode?: string;
@@ -62,6 +86,7 @@ export function TelephoneInput({
             placeholder="请输入区号"
             value={areaCode}
             onChange={handleAreaCodeChange}
+            {...restInputProps}
           />
         </Form.Item>
       </Col>
@@ -81,6 +106,7 @@ export function TelephoneInput({
             placeholder="请输入固定电话"
             value={phoneNo}
             onChange={handlePhoneNoChange}
+            {...restInputProps}
           />
         </Form.Item>
       </Col>
@@ -88,8 +114,9 @@ export function TelephoneInput({
   );
 }
 
-function TelephoneFormItem(props: FormItemProps) {
-  const { className, ...restProps } = props;
+/** 区号是不超过4位的数字，固定是电话应不超过8位的数字 */
+function TelephoneFormItem(props: TelephoneFormItemProps) {
+  const { className, inputProps, ...restProps } = props;
   const [areaCodeHelp, setAreaCodeHelp] = useState<string>();
   const [phoneNoHelp, setPhoneNoHelp] = useState<string>();
 
@@ -107,6 +134,7 @@ function TelephoneFormItem(props: FormItemProps) {
         {
           validator: (rules, value) => {
             if (!props.required && !value) {
+              // 不是必填，且没有填值的时候不做校验
               setAreaCodeHelp(undefined);
               setPhoneNoHelp(undefined);
               return Promise.resolve();
@@ -118,17 +146,24 @@ function TelephoneFormItem(props: FormItemProps) {
             let areaCodeMsg = '';
             let phoneNoMsg = '';
 
+            if (props.required && !areaCode) {
+              areaCodeMsg = TelephoneRules.请输入区号;
+            }
+            if (props.required && !phoneNo) {
+              areaCodeMsg = TelephoneRules.请输入固定电话;
+            }
+
             if (areaCode.length > 4) {
-              areaCodeMsg = '区号不超过4位';
+              areaCodeMsg = TelephoneRules.区号不超过4位;
             }
             if (!/^[0-9]+$/.test(areaCode)) {
-              areaCodeMsg = '区号应为数字';
+              areaCodeMsg = TelephoneRules.区号应为数字;
             }
             if (phoneNo.length > 8) {
-              phoneNoMsg = '固定电话应不超过8位';
+              phoneNoMsg = TelephoneRules.固定电话应不超过8位;
             }
             if (!/^[0-9]+$/.test(phoneNo)) {
-              phoneNoMsg = '固定电话应为数字';
+              phoneNoMsg = TelephoneRules.固定电话应为数字;
             }
             setAreaCodeHelp(areaCodeMsg);
             setPhoneNoHelp(phoneNoMsg);
@@ -141,7 +176,11 @@ function TelephoneFormItem(props: FormItemProps) {
       ]}
       {...restProps}
     >
-      <TelephoneInput areaCodeHelp={areaCodeHelp} phoneNoHelp={phoneNoHelp} />
+      <TelephoneInput
+        areaCodeHelp={areaCodeHelp}
+        phoneNoHelp={phoneNoHelp}
+        {...inputProps}
+      />
     </Form.Item>
   );
 }
